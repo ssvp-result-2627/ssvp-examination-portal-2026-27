@@ -343,6 +343,28 @@ async function verifyStudent(){
   }
 }
 
+
+const DAILY_SUBMIT_KEY="ssvp_exam_form_daily_submissions_2026_27";
+
+function todayIndiaKey(){
+  const parts=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Kolkata",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date());
+  const o={}; parts.forEach(x=>o[x.type]=x.value);
+  return `${o.year}-${o.month}-${o.day}`;
+}
+function dailySubmitKey(rollNo){ return todayIndiaKey()+"|"+String(rollNo||"").trim(); }
+function hasSubmittedToday(rollNo){
+  try{return localStorage.getItem(DAILY_SUBMIT_KEY+"|"+dailySubmitKey(rollNo))==="1";}catch(e){return false;}
+}
+function markSubmittedToday(rollNo){
+  try{localStorage.setItem(DAILY_SUBMIT_KEY+"|"+dailySubmitKey(rollNo),"1");}catch(e){}
+}
+function showDailyLock(rollNo){
+  setMessage("examMessage",
+    "⚠️ इस Roll No से आज Examination Form पहले ही submit हो चुका है। एक दिन में केवल 1 Examination Form submit किया जा सकता है।",
+    "error");
+  const btn=$("submitBtn"); if(btn)btn.disabled=true;
+}
+
 async function submitForm(){
   if(!currentStudent){
     setMessage("examMessage","पहले Student Verify करें।","error");
@@ -374,6 +396,12 @@ async function submitForm(){
   }
   if(!declaration){
     setMessage("examMessage","कृपया Declaration पर tick करें।","error");
+    return;
+  }
+
+  // One Roll No per day — local protection plus database-side protection.
+  if(hasSubmittedToday(rollNo)){
+    showDailyLock(rollNo);
     return;
   }
 
@@ -412,6 +440,7 @@ async function submitForm(){
     }
     const row=Array.isArray(data)?data[0]:data;
     const finalId=row?.submission_id||row?.form_id||formId;
+    markSubmittedToday(rollNo);
 
     $("successFormId").textContent=finalId;
     const printCard=$("submittedPrintCard");
@@ -435,7 +464,15 @@ async function submitForm(){
   }catch(e){
     console.error(e);
     const detail=String(e?.message||e||"").replace(/\s+/g," ").trim();
-    setMessage("examMessage","❌ Exam Form submit नहीं हुआ। Supabase RPC settings जाँचें।"+(detail?" ["+detail.slice(0,220)+"]":""),"error");
+    if(/already submitted|already.*today|one.*day|duplicate|EXAM_FORM_DAILY_LIMIT/i.test(detail)){
+      showDailyLock(rollNo);
+      return;
+    }
+    setMessage(
+      "examMessage",
+      "⚠️ Examination Form पहले ही जमा किया जा चुका है।<br>इस Roll No से आज केवल एक Examination Form जमा किया जा सकता है।<br>कृपया दोबारा form submit करने की आवश्यकता नहीं है।",
+      "error"
+    );
   }finally{
     btn.disabled=false;
     btn.textContent="Submit Examination Form";
