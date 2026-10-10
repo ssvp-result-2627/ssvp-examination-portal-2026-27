@@ -54,6 +54,23 @@ input[readonly]{background:#f4f7fb;color:#24385c}
 .submitted-print-card .print-subject{border:1px solid #bbb;border-radius:6px;padding:5px 9px}
 @media print{body *{visibility:hidden !important}#submittedPrintCard,#submittedPrintCard *{visibility:visible !important}#submittedPrintCard{position:absolute;left:0;top:0;width:100%;margin:0!important;border:0!important;border-radius:0!important}.success-actions,.footer{display:none!important}}
 </style>
+<style id="parent-status-style">
+.parent-status-card{margin-top:16px;background:#fff;border:1px solid #d8e3f1;border-radius:18px;padding:18px;box-shadow:0 8px 24px rgba(11,36,84,.08)}
+.parent-status-card h3{margin:0 0 8px;color:#0b2454}
+.parent-status-item{border:1px solid #dbe5f0;border-radius:14px;padding:14px;margin-top:12px;background:#f8fbff}
+.parent-status-head{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.parent-status-badge{display:inline-block;padding:7px 12px;border-radius:999px;font-weight:800;font-size:13px}
+.parent-status-submitted{background:#e8f0ff;color:#0b4ea2}
+.parent-status-pending{background:#fff4d6;color:#8a5a00}
+.parent-status-approved{background:#e4f8ea;color:#176b35}
+.parent-status-rejected{background:#ffe7e7;color:#a32121}
+.parent-status-duplicate{background:#f0e6ff;color:#6636a3}
+.parent-status-archived{background:#ececec;color:#555}
+.parent-status-timeline{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;font-size:13px}
+.parent-status-step{padding:6px 9px;border-radius:8px;background:#eef3f8;color:#45515f}
+.parent-status-step.active{font-weight:800;background:#dceaff;color:#0b2454}
+</style>
+
 </head>
 <body>
 
@@ -96,8 +113,10 @@ input[readonly]{background:#f4f7fb;color:#24385c}
   <input id="pin" type="password" inputmode="numeric" maxlength="6" autocomplete="off" placeholder="Enter 6-digit PIN">
 
   <button class="btn" id="verifyBtn" onclick="verifyStudent()">Verify Student</button>
+  <button class="btn secondary" id="checkStatusBtn" onclick="checkParentFormStatus()">📋 Check Form Status</button>
   <div id="message" class="message"></div>
-  <div class="small-note">आपके Result Portal में दिया गया वही 6-digit PIN इस्तेमाल करें।</div>
+  <div id="parentStatusBox" class="parent-status-card hidden"></div>
+  <div class="small-note">आपके Result Portal में दिया गया वही 6-digit PIN इस्तेमाल करें। Form Status देखने के लिए भी यही Roll No + PIN इस्तेमाल करें।</div>
 </section>
 
 <section class="form-card hidden" id="formBox">
@@ -128,10 +147,10 @@ input[readonly]{background:#f4f7fb;color:#24385c}
   </div>
 
   <label for="examination">Examination *</label>
-  <select id="examination">
-    <option value="2nd Terminal Examination 2026–27">2nd Terminal Examination 2026–27</option>
-    <option value="Annual Examination 2026–27">Annual Examination 2026–27</option>
+  <select id="examination" disabled>
+    <option value="First Terminal Examination 2026–27">First Terminal Examination 2026–27</option>
   </select>
+  <div id="activeExamNote" class="subject-note" style="margin-top:6px">Admin द्वारा निर्धारित Examination और Session के अनुसार form खुलेगा।</div>
 
   <label class="declaration">
     <input type="checkbox" id="agree">
@@ -160,7 +179,7 @@ input[readonly]{background:#f4f7fb;color:#24385c}
 
 </div>
 
-<div class="footer">SHREE SHANKARACHARYA VIDYAPITH • Online Examination Form • 2026–27</div>
+<div class="footer">SHREE SHANKARACHARYA VIDYAPITH • Online Examination Form • <span id="activeSessionFooter">2026–27</span></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
@@ -198,6 +217,7 @@ const SUBJECTS_BY_CLASS={
 let currentStudent=null;
 let currentPin="";
 let examFormOpen=true;
+let activeExamConfig={active_session:"2026-27",active_examination:"First Terminal Examination",examination_label:"First Terminal Examination 2026-27"};
 
 async function checkExamFormStatus(){
   const box=$("formStatus");
@@ -236,6 +256,44 @@ async function checkExamFormStatus(){
   }
 }
 
+async function loadActiveExamConfig(){
+  try{
+    const r=await fetch(SUPABASE_URL+"/rest/v1/rpc/get_exam_form_active_config",{
+      method:"POST",
+      headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY,"Content-Type":"application/json","Accept":"application/json"},
+      body:"{}"
+    });
+    if(!r.ok) throw new Error(await r.text());
+    const d=await r.json();
+    const x=Array.isArray(d)?d[0]:d;
+    if(!x?.active_session || !x?.active_examination) throw new Error("Active examination setting unavailable");
+    activeExamConfig={
+      active_session:String(x.active_session),
+      active_examination:String(x.active_examination),
+      examination_label:String(x.examination_label||((x.active_examination||"")+" "+(x.active_session||""))).replace(/-/g,"-" )
+    };
+    const select=$("examination");
+    if(select){
+      select.innerHTML="";
+      const opt=document.createElement("option");
+      opt.value=activeExamConfig.examination_label;
+      opt.textContent=activeExamConfig.examination_label;
+      select.appendChild(opt);
+      select.value=activeExamConfig.examination_label;
+      select.disabled=true;
+    }
+    const hs=$("activeSessionHeader"); if(hs) hs.textContent=activeExamConfig.active_session.replace("-","–");
+    const fs=$("activeSessionFooter"); if(fs) fs.textContent=activeExamConfig.active_session.replace("-","–");
+    const note=$("activeExamNote"); if(note) note.textContent="Admin ने अभी केवल "+activeExamConfig.examination_label+" के लिए Parent Examination Form खोला है।";
+    return true;
+  }catch(e){
+    console.error(e);
+    const note=$("activeExamNote");
+    if(note) note.textContent="Examination/Session setting load नहीं हो सकी। कृपया बाद में पुनः प्रयास करें।";
+    return false;
+  }
+}
+
 const $=id=>document.getElementById(id);
 
 function updateAutoRollCode(){
@@ -251,12 +309,132 @@ function renderSubjects(cls, selected=[]){
 
 $("classSelect").addEventListener("change",()=>{updateAutoRollCode();renderSubjects($("classSelect").value);});
 renderSubjects("");
+loadActiveExamConfig();
 checkExamFormStatus();
 
 function setMessage(id,text,type){
   const el=$(id);
   el.textContent=text;
   el.className="message"+(type?" "+type:"");
+}
+
+function parentStatusBadgeClass(status){
+  const s=String(status||"").toLowerCase();
+  if(s.includes("approved"))return "parent-status-approved";
+  if(s.includes("reject"))return "parent-status-rejected";
+  if(s.includes("duplicate"))return "parent-status-duplicate";
+  if(s.includes("archive"))return "parent-status-archived";
+  if(s.includes("under verification"))return "parent-status-pending";
+  return "parent-status-submitted";
+}
+
+function parentStatusLabel(status,classification,isArchived){
+  if(isArchived)return "ARCHIVED BY ADMIN";
+  const st=String(status||"pending").toLowerCase();
+  const cl=String(classification||"").toLowerCase();
+  if(cl==="duplicate")return "DUPLICATE SUBMISSION";
+  if(st==="rejected")return "REJECTED";
+  if(st==="approved")return "APPROVED";
+  if(st==="pending"||st==="submitted"||!st)return "UNDER VERIFICATION";
+  return st.toUpperCase();
+}
+
+function parentTimeline(status,classification,isArchived){
+  if(isArchived){
+    return ["Form Submitted","Archived by Admin"].map((x,i)=>`<span class="parent-status-step ${i===1?"active":""}">${escapeHtml(x)}</span>`).join('<span style="align-self:center">→</span>');
+  }
+  const st=String(status||"pending").toLowerCase();
+  const cl=String(classification||"").toLowerCase();
+  const steps=["Form Submitted"];
+  if(cl==="duplicate") steps.push("Duplicate Submission");
+  else if(st==="rejected") steps.push("Under Verification","Rejected");
+  else if(st==="approved") steps.push("Under Verification","Approved");
+  else steps.push("Under Verification");
+  return steps.map((x,i)=>`<span class="parent-status-step ${i===steps.length-1?"active":""}">${escapeHtml(x)}</span>`).join('<span style="align-self:center">→</span>');
+}
+
+async function checkParentFormStatus(){
+  const cls=$("classSelect").value.trim();
+  const rollNo=$("rollNo").value.trim();
+  const pin=$("pin").value.trim();
+  const rollCode=ROLL_CODES[cls];
+  const btn=$("checkStatusBtn");
+  const box=$("parentStatusBox");
+
+  if(!cls||!rollNo||!pin){
+    setMessage("message","कृपया Class, Roll No और PIN भरें।","error");
+    return;
+  }
+  if(!rollCode){
+    setMessage("message","कृपया सही Class चुनें।","error");
+    return;
+  }
+  if(!/^\d{6}$/.test(pin)){
+    setMessage("message","PIN 6 digit का होना चाहिए।","error");
+    return;
+  }
+
+  btn.disabled=true;
+  btn.textContent="Checking Status...";
+  box.classList.remove("hidden");
+  box.innerHTML='<h3>📋 Examination Form Status</h3><div class="small-note">Status check हो रहा है...</div>';
+
+  try{
+    const r=await fetch(SUPABASE_URL+"/rest/v1/rpc/parent_get_exam_form_status",{
+      method:"POST",
+      headers:{
+        "apikey":SUPABASE_KEY,
+        "Authorization":"Bearer "+SUPABASE_KEY,
+        "Content-Type":"application/json",
+        "Accept":"application/json"
+      },
+      body:JSON.stringify({p_roll_code:rollCode,p_roll_no:rollNo,p_pin:pin})
+    });
+    const txt=await r.text();
+    if(!r.ok)throw new Error(txt||("HTTP "+r.status));
+    const data=txt?JSON.parse(txt):{};
+
+    if(!data||data.valid!==true){
+      box.innerHTML='<h3>📋 Examination Form Status</h3><div class="message error">Roll No / PIN सही नहीं है।</div>';
+      return;
+    }
+
+    const forms=Array.isArray(data.forms)?data.forms:[];
+    if(!forms.length){
+      box.innerHTML=`<h3>📋 Examination Form Status</h3>
+        <div class="message">अभी इस Roll No से कोई Examination Form submit नहीं हुआ है।</div>`;
+      return;
+    }
+
+    const studentName=data.student_name||"—";
+    const cards=forms.map(f=>{
+      const status=parentStatusLabel(f.status,f.form_classification,!!f.is_archived);
+      const badgeClass=parentStatusBadgeClass(status);
+      const date=f.submitted_at?new Date(f.submitted_at).toLocaleString("en-IN"):"—";
+      const fid=f.form_id||"—";
+      const exam=f.examination||"—";
+      const review=String(f.form_classification||"").toLowerCase();
+      const reviewText=review==="valid"?"VALID":review==="duplicate"?"DUPLICATE":review==="unvalid"?"UNVALID":review==="unduplicate"?"UNDUPLICATE":"";
+      return `<div class="parent-status-item">
+        <div class="parent-status-head">
+          <div><b>Form ID:</b> ${escapeHtml(fid)}<br><span class="small-note">${escapeHtml(exam)} • ${escapeHtml(date)}</span></div>
+          <span class="parent-status-badge ${badgeClass}">${escapeHtml(status)}</span>
+        </div>
+        <div class="parent-status-timeline">${parentTimeline(f.status,f.form_classification,!!f.is_archived)}</div>
+        ${reviewText?`<div class="small-note" style="margin-top:9px"><b>Admin Review:</b> ${escapeHtml(reviewText)}</div>`:""}
+      </div>`;
+    }).join("");
+
+    box.innerHTML=`<h3>📋 Examination Form Status</h3>
+      <div class="small-note"><b>Student:</b> ${escapeHtml(studentName)} &nbsp; <b>Class:</b> ${escapeHtml(cls)} &nbsp; <b>Roll No:</b> ${escapeHtml(rollNo)}</div>
+      ${cards}`;
+  }catch(e){
+    console.error(e);
+    box.innerHTML='<h3>📋 Examination Form Status</h3><div class="message error">Status check नहीं हो सका। कृपया थोड़ी देर बाद फिर प्रयास करें।</div>';
+  }finally{
+    btn.disabled=false;
+    btn.textContent="📋 Check Form Status";
+  }
 }
 
 async function verifyStudent(){
@@ -396,6 +574,10 @@ async function submitForm(){
   }
   if(!declaration){
     setMessage("examMessage","कृपया Declaration पर tick करें।","error");
+    return;
+  }
+  if(!activeExamConfig?.examination_label || examination!==activeExamConfig.examination_label){
+    setMessage("examMessage","Admin द्वारा निर्धारित Examination/Session के अनुसार ही form submit किया जा सकता है।","error");
     return;
   }
 
