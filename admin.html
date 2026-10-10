@@ -21,7 +21,17 @@ input,select,textarea{width:100%;padding:12px;border:1px solid #cbd5e1;border-ra
 button{border:0;border-radius:8px;padding:11px 15px;background:#0a2a60;color:#fff;font-weight:700;cursor:pointer}
 button.green{background:#188448}button.red{background:#c9232d}button.gray{background:#59636f}
 button:disabled{opacity:.55;cursor:not-allowed}
-.hidden{display:none!important}
+.hidden{display:none!important}.prelogin-hidden{display:none!important}
+/* DISPLAY-ONLY FIX: before login, show only school header and clean password card. */
+body:not(.admin-authenticated) > *:not(.header):not(.wrap):not(script):not(style){display:none!important}
+body:not(.admin-authenticated) .wrap > :not(#loginCard){display:none!important}
+body:not(.admin-authenticated) #loginCard{display:block!important;visibility:visible!important;max-width:560px;margin:28px auto;padding:24px;background:#fff;border-radius:16px;border-top:4px solid #d6a94d;box-shadow:0 6px 22px #0001}
+body:not(.admin-authenticated) #loginCard:before{content:"🔐 Admin Login";display:block;text-align:center;color:#0b2454;font-size:28px;font-weight:700;margin:0 0 20px}
+body:not(.admin-authenticated) #loginCard label{font-size:20px}
+body:not(.admin-authenticated) #loginCard button{min-height:52px}
+body:not(.admin-authenticated) .header{padding:22px 12px}
+body:not(.admin-authenticated) .header h1{font-size:clamp(18px,4vw,24px)}
+@media(max-width:600px){body:not(.admin-authenticated) .wrap{margin:12px auto;padding:0 12px}body:not(.admin-authenticated) #loginCard{margin:14px auto;padding:22px 18px}}
 .msg{text-align:center;min-height:22px;margin-top:12px;font-weight:700}.ok{color:#17743b}.err{color:#c62828}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .stat{border:1px solid #dbe3ee;border-radius:10px;padding:14px;text-align:center;background:#f8fbff}
@@ -58,7 +68,15 @@ footer{text-align:center;color:#667085;font-size:12px;padding:20px}
  .header h1{font-size:18px}.stats{grid-template-columns:1fr 1fr}.toolbar{grid-template-columns:1fr}.detail-grid{grid-template-columns:1fr}
 }
 
-.admit-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.admit-schedule-table{width:100%;min-width:760px}.admit-schedule-table th{position:static}.admit-schedule-table input{min-width:120px}.release-box{background:linear-gradient(135deg,#f8fbff,#eef5ff);border:1px solid #cbdaf0;border-radius:12px;padding:14px}.generate-badge{background:#e6f7ed;color:#176b3a;border:1px solid #b8e3ca}.generated-badge{background:#e8f0ff;color:#0b2e72;border:1px solid #c9d8f2}.admit-released{background:#d9f6e5;color:#176b3a;border:1px solid #a8dfbd}.admit-not-released{background:#fde0e0;color:#a32020;border:1px solid #f4b7b7}.admit-checking{background:#fff4cc;color:#8a6200;border:1px solid #f2d887}@media(max-width:700px){.admit-grid{grid-template-columns:1fr}}
+.admit-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.admit-schedule-table{width:100%;min-width:760px}.admit-schedule-table th{position:static}.admit-schedule-table input{min-width:120px}.release-box{background:linear-gradient(135deg,#f8fbff,#eef5ff);border:1px solid #cbdaf0;border-radius:12px;padding:14px}.generate-badge{background:#e6f7ed;color:#176b3a;border:1px solid #b8e3ca}.generated-badge{background:#e8f0ff;color:#0b2e72;border:1px solid #c9d8f2}.admit-released{background:#d9f6e5;color:#176b3a;border:1px solid #a8dfbd}.admit-not-released{background:#fde0e0;color:#a32020;border:1px solid #f4b7b7}.admit-checking{background:#fff4cc;color:#8a6200;border:1px solid #f2d887}
+.admit-release-control{margin-top:14px}
+.admit-release-table{width:100%;min-width:620px}
+.admit-release-table th{position:static}
+.release-status-pill{display:inline-block;padding:6px 10px;border-radius:999px;font-weight:800;font-size:12px}
+.release-status-released{background:#d9f6e5;color:#176b3a;border:1px solid #a8dfbd}
+.release-status-not{background:#fde0e0;color:#a32020;border:1px solid #f4b7b7}
+@media(max-width:700px){.admit-release-table{min-width:560px}}
+@media(max-width:700px){.admit-grid{grid-template-columns:1fr}}
 @media(max-width:700px){
  .wrap{margin:8px auto;padding:0 7px}
  .card{padding:13px;margin:9px 0;border-radius:11px}
@@ -118,6 +136,34 @@ footer{text-align:center;color:#667085;font-size:12px;padding:20px}
 .admit-notice{font-size:10.5px;line-height:1.3;margin-top:8px}.admit-signatures{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:15px;text-align:center;font-size:12px}.admit-signature-img{height:45px;width:auto;max-width:145px;object-fit:contain;display:block;margin:0 auto 3px;filter:contrast(1.3)}.admit-signature-space{height:42px}.admit-line{border-top:1px solid #333;padding-top:4px}.admit-footer{text-align:center;font-size:9px;color:#687384;margin-top:7px}
 @media(max-width:700px){.admit-paper{transform-origin:top left;transform:scale(.46);margin-bottom:-160mm}.admit-preview-box{overflow:auto}.admit-info-wrap{grid-template-columns:1fr 85px}.admit-school{grid-template-columns:26mm 1fr}.admit-logo{width:25mm;height:25mm}.admit-school h2{font-size:18px}}
 @media print{body>*:not(#admitPreviewModal){display:none!important}#admitPreviewModal{position:static!important;display:block!important;background:#fff!important;padding:0!important}.admit-preview-box{max-height:none!important;overflow:visible!important;padding:0!important;background:#fff!important}.admit-preview-actions{display:none!important}.admit-paper{width:210mm!important;height:297mm!important;min-height:297mm!important;box-shadow:none!important;margin:0!important;padding:5mm 7mm 4mm!important;transform:none!important;overflow:hidden!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}@page{size:A4 portrait;margin:0}}
+
+.dashboard-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.dashboard-stat{border:1px solid #dbe3ee;border-radius:10px;padding:12px;text-align:center;background:#f8fbff}
+.dashboard-stat b{display:block;font-size:23px;color:#0b2e72}.dashboard-stat span{font-size:12px;color:#64748b}
+.dashboard-stat.valid{background:#f0fbf4;border-color:#b8e3ca}.dashboard-stat.valid b{color:#176b3a}
+.dashboard-stat.unvalid{background:#fffaf0;border-color:#f2d887}.dashboard-stat.unvalid b{color:#8a6200}
+.dashboard-stat.duplicate{background:#fff5f5;border-color:#f4b7b7}.dashboard-stat.duplicate b{color:#a32020}
+.dashboard-stat.unduplicate{background:#fffaf0;border-color:#f2d887}.dashboard-stat.unduplicate b{color:#8a6200}
+.dashboard-table{width:100%;min-width:620px}
+.dashboard-table th,.dashboard-table td{text-align:center}
+.dashboard-table th:first-child,.dashboard-table td:first-child{text-align:left}
+@media(max-width:700px){.dashboard-stats{grid-template-columns:1fr 1fr}.dashboard-stat{padding:10px 6px}.dashboard-stat b{font-size:20px}.dashboard-stat span{font-size:11px}}
+
+
+.date-report-controls{display:flex;gap:10px;align-items:end;flex-wrap:wrap}.date-report-controls>div{min-width:150px;flex:1}.date-report-table{width:100%;min-width:760px}.date-report-table th,.date-report-table td{text-align:center}.date-report-table th:first-child,.date-report-table td:first-child{text-align:left}.date-report-total{font-weight:700;background:#f8fbff}@media(max-width:700px){.date-report-controls>div{min-width:130px}.date-report-table{font-size:12px}}
+
+/* Strict pre-login screen: show only the password/login card until authentication succeeds. */
+body:not(.admin-authenticated) .wrap > :not(#loginCard) {
+  display: none !important;
+  visibility: hidden !important;
+}
+body:not(.admin-authenticated) #loginCard {
+  display: block !important;
+  visibility: visible !important;
+}
+body:not(.admin-authenticated) #loginCard * {
+  visibility: visible;
+}
 </style>
 </head>
 <body>
@@ -130,14 +176,118 @@ footer{text-align:center;color:#667085;font-size:12px;padding:20px}
 <div class="wrap">
 
 <section id="loginCard" class="card login">
- <h2>🔐 Admin Login</h2>
  <label for="adminPassword">Admin Password</label>
  <input id="adminPassword" type="password" placeholder="Enter Admin Password" autocomplete="current-password">
  <button style="width:100%;margin-top:18px" onclick="startLogin()">Login</button>
- <div id="loginMessage" class="msg"></div>
+ <div id="loginMessage" class="msg" aria-live="polite"></div>
 </section>
 
-<section id="dashboard" class="hidden" style="display:none!important">
+<script>
+// SECURITY/UI: Never show Admin Panel content before successful login.
+(function(){
+  var d=document.getElementById("dashboard");
+  if(d){ d.classList.add("hidden","prelogin-hidden"); d.style.setProperty("display","none","important"); d.style.setProperty("visibility","hidden","important"); }
+})();
+</script>
+
+<section id="dashboard" class="hidden prelogin-hidden" style="display:none!important;visibility:hidden!important">
+
+  <div class="card" id="adminDashboardSummary">
+   <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
+    <div>
+     <h2 style="margin:0;color:#0b2454">📊 Admin Dashboard</h2>
+     <p class="note" style="margin-bottom:0">Examination forms का live summary. यह data उसी forms list से calculate होता है जो Admin Panel में पहले से load होता है।</p>
+    </div>
+    <button class="gray" onclick="loadForms()">🔄 Refresh Dashboard</button>
+   </div>
+
+   <div class="dashboard-stats" style="margin-top:14px">
+    <div class="dashboard-stat"><b id="dashTotal">0</b><span>Total Forms</span></div>
+    <div class="dashboard-stat"><b id="dashPending">0</b><span>Pending</span></div>
+    <div class="dashboard-stat"><b id="dashApproved">0</b><span>Approved</span></div>
+    <div class="dashboard-stat"><b id="dashRejected">0</b><span>Rejected</span></div>
+    <div class="dashboard-stat valid"><b id="dashValid">0</b><span>Valid</span></div>
+    <div class="dashboard-stat unvalid"><b id="dashUnvalid">0</b><span>Unvalid</span></div>
+    <div class="dashboard-stat duplicate"><b id="dashDuplicate">0</b><span>Duplicate</span></div>
+    <div class="dashboard-stat unduplicate"><b id="dashUnduplicate">0</b><span>Unduplicate</span></div>
+   </div>
+
+   <h3 style="margin:18px 0 8px;color:#0b2454">🏫 Class-wise Summary</h3>
+   
+<div class="card" id="enhancedStudentSearch" style="margin-top:14px">
+  <h3 style="margin:0 0 8px;color:#0b2454">🔎 Better Student Search</h3>
+  <p class="note">Student Name, Roll No, Roll Code, Father/Mother Name, Mobile, Form ID और Examination से तुरंत search करें।</p>
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+    <input id="studentSearchBox" type="search"
+      placeholder="Search Student / Roll No / Roll Code / Parent / Mobile / Form ID / Examination"
+      oninput="applyEnhancedStudentSearch()"
+      style="width:100%;box-sizing:border-box">
+    <select id="studentClassSearch" onchange="applyEnhancedStudentSearch()" style="width:100%;box-sizing:border-box">
+      <option value="">All Classes</option>
+      <option value="nursery">Nursery</option>
+      <option value="lkg">LKG</option>
+      <option value="ukg">UKG</option>
+      <option value="class 1">Class 1</option>
+      <option value="class 2">Class 2</option>
+      <option value="class 3">Class 3</option>
+      <option value="class 4">Class 4</option>
+      <option value="class 5">Class 5</option>
+      <option value="class 6">Class 6</option>
+      <option value="class 7">Class 7</option>
+      <option value="class 8">Class 8</option>
+    </select>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+    <button class="gray" onclick="clearEnhancedStudentSearch()">✖ Clear Search</button>
+    <span id="enhancedSearchResultCount" class="note" style="align-self:center"></span>
+  </div>
+</div>
+
+<div class="table-wrap">
+    <table class="dashboard-table">
+     <thead><tr><th>Class</th><th>Total</th><th>Pending</th><th>Approved</th><th>Rejected</th></tr></thead>
+     <tbody id="classSummaryRows"></tbody>
+    </table>
+   </div>
+  </div>
+
+ 
+ <div class="card" id="adminActivityLogCard">
+  <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><h2 style="margin:0;color:#0b2454">🔐 Admin Activity Log</h2><p class="note" style="margin-bottom:0">किस Admin action ने क्या किया, उसका सुरक्षित record यहाँ रहेगा।</p></div><button class="gray" onclick="loadActivityLogs()">🔄 Refresh Log</button></div>
+  <div class="table-wrap" style="margin-top:14px"><table class="dashboard-table"><thead><tr><th>Date & Time</th><th>Admin</th><th>Action</th><th>Form / Student</th><th>Details</th></tr></thead><tbody id="adminActivityLogRows"><tr><td colspan="5" style="text-align:center;padding:20px">Activity Log load हो रहा है...</td></tr></tbody></table></div>
+  <div id="activityLogMessage" class="msg"></div>
+ </div>
+
+ <div class="card" id="separateDownloadCard">
+  <h2 style="margin:0;color:#0b2454">⬇️ Separate Form Downloads</h2>
+  <p class="note">Forms को अलग-अलग category में CSV format में download करें। पुराने Valid / Unvalid / Duplicate / Unduplicate downloads भी पहले की तरह रहेंगे।</p>
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px">
+   <button class="gray" onclick="downloadFilteredFormsCSV('pending')">⬇️ Download Pending</button>
+   <button class="green" onclick="downloadFilteredFormsCSV('approved')">⬇️ Download Approved</button>
+   <button class="red" onclick="downloadFilteredFormsCSV('rejected')">⬇️ Download Rejected</button>
+   <button class="blue" onclick="downloadClassWiseCSV()">🏫 Download Class-wise</button>
+   <button class="blue" onclick="downloadDateWiseCSV()">📅 Download Date-wise</button>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
+   <div>
+    <label for="downloadClassSelect">Class-wise specific class (optional)</label>
+    <select id="downloadClassSelect">
+     <option value="">All Classes</option>
+     <option value="nursery">Nursery</option><option value="lkg">LKG</option><option value="ukg">UKG</option>
+     <option value="class 1">Class 1</option><option value="class 2">Class 2</option><option value="class 3">Class 3</option>
+     <option value="class 4">Class 4</option><option value="class 5">Class 5</option><option value="class 6">Class 6</option>
+     <option value="class 7">Class 7</option><option value="class 8">Class 8</option>
+    </select>
+   </div>
+   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div><label for="downloadFromDate">From Date</label><input id="downloadFromDate" type="date"></div>
+    <div><label for="downloadToDate">To Date</label><input id="downloadToDate" type="date"></div>
+   </div>
+  </div>
+  <div id="downloadMessage" class="msg"></div>
+ </div>
+
+<div class="card" id="dateWiseReportCard"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><h2 style="margin:0;color:#0b2454">📅 Date-wise Form Report</h2><p class="note" style="margin-bottom:0">Exam form किस तारीख को कितने submit हुए, उसका दिनवार report.</p></div></div><div class="date-report-controls" style="margin-top:14px"><div><label for="reportFromDate">From Date</label><input id="reportFromDate" type="date"></div><div><label for="reportToDate">To Date</label><input id="reportToDate" type="date"></div><button class="blue" onclick="renderDateWiseReport()">🔎 Apply Report</button><button class="gray" onclick="resetDateWiseReport()">↺ Reset</button></div><div class="table-wrap" style="margin-top:14px"><table class="date-report-table"><thead><tr><th>Date</th><th>Total</th><th>Pending</th><th>Approved</th><th>Rejected</th><th>Valid</th><th>Unvalid</th><th>Duplicate</th><th>Unduplicate</th></tr></thead><tbody id="dateWiseReportRows"></tbody><tfoot id="dateWiseReportTotal"></tfoot></table></div></div>
 
  <div class="card">
   <div class="status-panel">
@@ -151,8 +301,37 @@ footer{text-align:center;color:#667085;font-size:12px;padding:20px}
   <div id="settingsMessage" class="msg"></div>
  </div>
 
+ <div class="card" id="activeExamSessionControlCard">
+  <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
+   <div>
+    <h2 style="margin:0;color:#0b2454">🎯 Parent Examination & Session Control</h2>
+    <p class="note" style="margin-bottom:0">Admin यहाँ तय करेगा कि Parent side पर कौन-सा Examination और कौन-सा Session का form भरने के लिए खुलेगा। बाकी existing functions में कोई बदलाव नहीं होगा।</p>
+   </div>
+   <span id="activeExamSessionStatus" class="status-pill">Loading...</span>
+  </div>
+  <div class="settings-grid" style="margin-top:14px">
+   <div>
+    <label for="activeExamSession">Session</label>
+    <select id="activeExamSession"></select>
+   </div>
+   <div>
+    <label for="activeExamName">Examination</label>
+    <select id="activeExamName">
+     <option value="First Terminal Examination">First Terminal Examination</option>
+     <option value="2nd Terminal Examination">2nd Terminal Examination</option>
+     <option value="Annual Examination">Annual Examination</option>
+    </select>
+   </div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+   <button class="green" onclick="saveActiveExamSession()">💾 Save Parent Examination Setting</button>
+   <button class="gray" onclick="loadActiveExamSession()">🔄 Refresh</button>
+  </div>
+  <div id="activeExamSessionMessage" class="msg"></div>
+ </div>
+
  <div class="card">
-  <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><h2 style="margin:0;color:#0b2454">✍️ Admin Direct Form Entry</h2><p class="note" style="margin-bottom:0">Parent form बंद होने पर भी Admin यहाँ से form submit कर सकता है।</p></div><button onclick="openDirectForm()">➕ New Direct Form</button></div>
+  <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><h2 style="margin:0;color:#0b2454">✍️ Admin Direct Form Entry</h2><p class="note" style="margin-bottom:0">Parent form बंद होने पर भी Admin यहाँ से form submit कर सकता है।</p></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button onclick="openNewStudent()">👤 Add New Student</button><button onclick="openDirectForm()">➕ New Direct Form</button></div></div>
  </div>
 
  <div class="card">
@@ -185,6 +364,31 @@ footer{text-align:center;color:#667085;font-size:12px;padding:20px}
   <p class="note" style="margin-bottom:0">Admin किसी form की VALID/DUPLICATE classification को वापस UNVALID/UNDUPLICATE कर सकता है। Existing form delete नहीं होगा।</p>
  </div>
 
+  <div class="card admit-release-control">
+   <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
+    <div>
+     <h2 style="margin:0;color:#0b2454">🎫 Class-wise Admit Card Release Control</h2>
+     <p class="note" style="margin-bottom:0">हर class का Admit Card अलग से Released / Not Released किया जा सकता है। Schedule और Admit Card generation की existing setting में कोई बदलाव नहीं होगा।</p>
+    </div>
+    <button class="gray" onclick="loadAdmitClassRelease()">🔄 Refresh Status</button>
+   </div>
+   <div class="release-box" style="margin-top:14px">
+    <label for="admitReleaseControlExam">Examination</label>
+    <select id="admitReleaseControlExam" onchange="loadAdmitClassRelease()">
+     <option>First Terminal Examination 2026–27</option>
+      <option>2nd Terminal Examination 2026–27</option>
+     <option>Annual Examination 2026–27</option>
+    </select>
+    <div class="table-wrap" style="margin-top:12px">
+     <table class="admit-release-table">
+      <thead><tr><th>Class</th><th>Status</th><th>Action</th></tr></thead>
+      <tbody id="admitClassReleaseRows"></tbody>
+     </table>
+    </div>
+    <div id="admitClassReleaseMessage" class="msg"></div>
+   </div>
+  </div>
+
  <div class="card" id="admitCardManagement">
   <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
    <div>
@@ -200,7 +404,8 @@ footer{text-align:center;color:#667085;font-size:12px;padding:20px}
     <p class="note">यह date Admin तय करेगा। Admit Card download होने के कई दिन बाद भी card पर यही fixed date दिखाई जाएगी।</p>
     <label for="admitExamName">Examination</label>
     <select id="admitExamName" onchange="loadAdmitSettings()">
-     <option>2nd Terminal Examination 2026–27</option>
+     <option>First Terminal Examination 2026–27</option>
+      <option>2nd Terminal Examination 2026–27</option>
      <option>Annual Examination 2026–27</option>
     </select>
     <label for="admitReleaseDate">Fixed Download Date</label>
@@ -256,7 +461,7 @@ footer{text-align:center;color:#667085;font-size:12px;padding:20px}
      <option value="">All Status</option><option value="pending">Pending</option>
      <option value="approved">Approved</option><option value="rejected">Rejected</option>
      <option value="valid">Valid Forms</option><option value="unvalid">Unvalid Forms</option>
-     <option value="duplicate">Duplicate Forms</option><option value="unduplicate">Unduplicate Forms</option>
+     <option value="duplicate">Duplicate Forms</option><option value="unduplicate">Unduplicate Forms</option><option value="archived">🗄️ Archived Forms</option>
     </select>
    </div>
    <button onclick="loadForms()">🔄 Refresh</button>
@@ -266,11 +471,44 @@ footer{text-align:center;color:#667085;font-size:12px;padding:20px}
  </div>
 
 
+
+<div class="card" id="allAdmitSchedulesCard" style="display:none!important;visibility:hidden!important">
+  <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
+   <div>
+    <h2 style="margin:0;color:#0b2454">📚 Subject-wise Admit Card Schedule</h2>
+    <p class="note" style="margin:6px 0 0">एक ही जगह सभी classes का Admit Card schedule देखें। जरूरत पड़ने पर Edit करके उसी class का schedule बदला जा सकता है।</p>
+   </div>
+   <button class="gray" onclick="loadAllAdmitSchedules()">🔄 Refresh Schedule</button>
+  </div>
+  <div id="allAdmitSchedulesMessage" class="msg"></div>
+  <div id="allAdmitSchedulesContainer" style="margin-top:12px"></div>
+ </div>
+
+<div class="card prelogin-hidden" id="archiveInfoCard" style="display:none!important;visibility:hidden!important">
+  <h2 style="margin:0;color:#0b2454">🗄️ Safe Archive</h2>
+  <p class="note" style="margin:6px 0 0">Form को permanent delete नहीं किया जाएगा। Archive करने पर form सामान्य list से हटकर सुरक्षित Archived Forms में रहेगा और जरूरत पड़ने पर Restore किया जा सकता है।</p>
+  <div style="margin-top:10px"><b>Archived Forms:</b> <span id="archivedCount">0</span></div>
+  <div id="archiveMessage" class="msg"></div>
+  <div id="archivedFormsList" style="margin-top:12px"></div>
+</div>
+
+<div class="card" id="selectedFormsActions" style="display:none">
+  <h3 style="margin:0 0 8px;color:#0b2454">🖨️ Selected Forms</h3>
+  <p class="note">नीचे Examination Forms में checkbox से एक या कई forms select करें।</p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+    <button class="primary" onclick="printSelectedForms()">🖨️ Print Selected Forms</button>
+    <button class="gray" onclick="downloadSelectedFormsPDF()">⬇️ Download Selected Forms PDF</button>
+    <button class="gray" onclick="selectAllVisibleForms()">☑️ Select All Visible</button>
+    <button class="gray" onclick="clearSelectedForms()">✖ Clear Selection</button>
+    <b id="selectedFormsCount" style="color:#0b2454">0 selected</b>
+  </div>
+</div>
+
 <div class="card">
   <div class="table-wrap">
    <table>
     <thead><tr>
-     <th>Form ID</th><th>Student</th><th>Class</th><th>Roll Code</th><th>Roll No</th>
+     <th>Select</th><th>Form ID</th><th>Student</th><th>Class</th><th>Roll Code</th><th>Roll No</th>
      <th>Father</th><th>Mobile</th><th>Examination</th><th>Form Status</th><th>Review</th><th>Admit Card</th><th>Submitted</th><th>Action</th>
     </tr></thead>
     <tbody id="formRows"></tbody>
@@ -278,9 +516,62 @@ footer{text-align:center;color:#667085;font-size:12px;padding:20px}
   </div>
  </div>
 
+ <div class="card" id="allStudentsFormStatusCard" style="margin-top:18px">
+  <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
+   <div>
+    <h2 style="margin:0;color:#0b2454">📋 Class-wise Student Exam Form Status</h2>
+    <p class="note" style="margin:6px 0 0">Result Portal के Session 2026-27 में मौजूद सभी students (Name, Roll Code, Roll No) से मिलान। Form submit हो चुका है तो <b>Submitted</b>, अन्यथा <b>Not Submitted</b> दिखाई देगा। सूची हर 30 सेकंड में अपने-आप refresh होगी।</p>
+   </div>
+   <button class="gray" onclick="refreshExamStudentStatus()">🔄 Refresh Student Status</button>
+  </div>
+  <div class="dashboard-stats" style="margin-top:12px">
+   <div class="dashboard-stat"><b id="statusStudentsTotal">0</b><span>Total Students</span></div>
+   <div class="dashboard-stat valid"><b id="statusStudentsSubmitted">0</b><span>Submitted</span></div>
+   <div class="dashboard-stat unvalid"><b id="statusStudentsNotSubmitted">0</b><span>Not Submitted</span></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px">
+   <div><label for="examStudentStatusClass">Class</label>
+    <select id="examStudentStatusClass" onchange="renderExamStudentStatus()">
+     <option value="">All Classes</option><option>Nursery</option><option>LKG</option><option>UKG</option>
+     <option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option>
+     <option>Class 5</option><option>Class 6</option><option>Class 7</option><option>Class 8</option>
+    </select>
+   </div>
+   <div><label for="examStudentStatusSearch">Search Student</label>
+    <input id="examStudentStatusSearch" type="search" placeholder="Name / Roll No / Roll Code" oninput="renderExamStudentStatus()">
+   </div>
+  </div>
+  <div id="examStudentStatusMessage" class="msg" style="margin-top:10px"></div>
+  <div id="examStudentStatusSummary" style="margin-top:12px"></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+   <button class="primary" onclick="exportExamStudentStatus('print')">🖨️ Print Class-wise Lists</button>
+   <button class="gray" onclick="exportExamStudentStatus('pdf')">📄 Save as PDF</button>
+   <button class="gray" onclick="downloadExamStudentStatusImage()">🖼️ Download Image</button>
+  </div>
+  <p class="note" style="margin:6px 0 0">Print / Save as PDF में Submitted और Not Submitted की अलग-अलग कक्षा-वार सूची बनेगी। Download Image वर्तमान filter की सूची को PNG में डाउनलोड करेगा।</p>
+  <div id="examStudentStatusRows" style="margin-top:12px"></div>
+ </div>
+
 </section>
 </div>
 
+
+<div id="newStudentModal" class="modal hidden">
+ <div class="modalbox">
+  <h2 style="color:#0b2454;margin-top:0">👤 Add New Student</h2>
+  <p class="note">नए विद्यार्थी के लिए Admin केवल Class चुनकर Student Name दर्ज करेगा। Roll Code, Roll No और 6-Digit PIN अपने-आप बनेंगे। Father/Mother Name, Parent Mobile, Examination और Subjects Parent Examination Form में विद्यार्थी/अभिभावक स्वयं भरेंगे।</p>
+  <div class="direct-grid">
+   <div><label>Class *</label><select id="newStudentClass" onchange="previewNewStudentRoll()"><option value="">Select Class</option><option>Nursery</option><option>LKG</option><option>UKG</option><option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option><option>Class 6</option><option>Class 7</option><option>Class 8</option></select></div>
+   <div><label>Student Name *</label><input id="newStudentName" placeholder="Student Name"></div>
+   <div><label>Roll Code (Automatic)</label><input id="newStudentRollCode" readonly></div>
+   <div><label>Roll No (Automatic)</label><input id="newStudentRollNo" readonly></div>
+   <div><label>6-Digit PIN (Automatic)</label><input id="newStudentPin" readonly inputmode="numeric" placeholder="Class चुनें"></div>
+   <div class="wide detail" id="newStudentRollMessage">Class select करें — Roll Code, Roll No और PIN अपने-आप आएगा।</div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:18px"><button class="green" id="saveNewStudentBtn" onclick="saveNewStudent()">💾 Save New Student</button><button class="gray" onclick="closeNewStudent()">Cancel</button></div>
+  <div id="newStudentMessage" class="msg"></div>
+ </div>
+</div>
 
 <div id="directModal" class="modal hidden">
  <div class="modalbox">
@@ -295,7 +586,8 @@ footer{text-align:center;color:#667085;font-size:12px;padding:20px}
    <div><label>Father's Name</label><input id="directFather"></div>
    <div><label>Mother's Name</label><input id="directMother"></div>
    <div><label>Parent Mobile</label><input id="directMobile" maxlength="10" inputmode="numeric"></div>
-   <div><label>Examination</label><select id="directExam"><option>2nd Terminal Examination 2026–27</option><option>Annual Examination 2026–27</option></select></div>
+   <div><label>Examination</label><select id="directExam"><option>First Terminal Examination 2026–27</option>
+      <option>2nd Terminal Examination 2026–27</option><option>Annual Examination 2026–27</option></select></div>
    <div class="wide"><label>Subjects</label><div id="directSubjects" class="subject-edit"></div></div>
   </div>
   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:18px"><button class="green" id="directSubmitBtn" onclick="submitDirectForm()">💾 Submit Direct Form</button><button class="gray" onclick="closeDirectForm()">Cancel</button></div>
@@ -324,9 +616,19 @@ footer{text-align:center;color:#667085;font-size:12px;padding:20px}
 
   <label for="editExamination">Examination</label>
   <select id="editExamination">
-   <option value="2nd Terminal Examination 2026–27">2nd Terminal Examination 2026–27</option>
+   <option value="First Terminal Examination 2026–27">First Terminal Examination 2026–27</option>
+     <option value="2nd Terminal Examination 2026–27">2nd Terminal Examination 2026–27</option>
    <option value="Annual Examination 2026–27">Annual Examination 2026–27</option>
   </select>
+
+  <label for="editAdminNote">📝 Admin Note</label>
+  <textarea id="editAdminNote" rows="4" placeholder="Admin Note लिखें..."></textarea>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">
+   <button type="button" class="gray" onclick="setAdminNote('Documents checked')">Documents checked</button>
+   <button type="button" class="gray" onclick="setAdminNote('Parent contacted')">Parent contacted</button>
+   <button type="button" class="gray" onclick="setAdminNote('Duplicate submission')">Duplicate submission</button>
+   <button type="button" class="gray" onclick="setAdminNote('Correction required')">Correction required</button>
+  </div>
 
   <label>Selected Subjects</label>
   <div id="editSubjects" class="subject-edit"></div>
@@ -380,10 +682,13 @@ const ADMIN_PASSWORD="SSVP@Admin2026";
 let db=null;
 let forms=[];
 let currentForm=null;
+const adminNoteCache=new Map();
 const admitStatusCache=new Map();
 let directStudent=null;
 const DIRECT_ROLL_CODES={"Nursery":"SSVP-NUR-2627","LKG":"SSVP-LKG-2627","UKG":"SSVP-UKG-2627","Class 1":"SSVP-01-2627","Class 2":"SSVP-02-2627","Class 3":"SSVP-03-2627","Class 4":"SSVP-04-2627","Class 5":"SSVP-05-2627","Class 6":"SSVP-06-2627","Class 7":"SSVP-07-2627","Class 8":"SSVP-08-2627"};
 const DIRECT_SUBJECTS=["Hindi","English","Maths","Science","SST","Sanskrit","GK + COMPUTER","Drawing","Neatness","Handicrafts","Music"];
+const ADMIT_RELEASE_CLASSES=["NURSERY","LKG","UKG","CLASS 1","CLASS 2","CLASS 3","CLASS 4","CLASS 5","CLASS 6","CLASS 7","CLASS 8"];
+const PARENT_EXAM_SESSIONS=Array.from({length:25},(_,i)=>{const y=2026+i;return `${y}-${String((y+1)%100).padStart(2,"0")}`;});
 
 const $=id=>document.getElementById(id);
 const esc=v=>String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
@@ -401,14 +706,69 @@ function startLogin(){
  if(!window.supabase||typeof window.supabase.createClient!=="function"){
   msg("loginMessage","Supabase library load नहीं हुई। Internet ON करें।",false); return;
  }
+ document.body.classList.add("admin-authenticated");
  db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
  sessionStorage.setItem("ssvp_exam_admin_ok","1");
  $("loginCard").classList.add("hidden");
- $("dashboard").classList.remove("hidden");
+ $("dashboard").classList.remove("hidden","prelogin-hidden");
  $("dashboard").style.removeProperty("display");
+ $("dashboard").style.removeProperty("visibility");
+ const archiveCard=$("archiveInfoCard");
+ if(archiveCard){ archiveCard.classList.remove("prelogin-hidden"); archiveCard.style.removeProperty("display"); archiveCard.style.removeProperty("visibility"); }
+ $("selectedFormsActions").style.display="block";
+ const allScheduleCard=$("allAdmitSchedulesCard");
+ if(allScheduleCard){ allScheduleCard.style.removeProperty("display"); allScheduleCard.style.removeProperty("visibility"); }
  loadWindowSettings();
+ loadActiveExamSession();
  loadForms();
  loadAdmitSettings();
+ // Keep the class-wise Submitted / Not Submitted report current while Admin stays logged in.
+ if(!examStudentStatusTimer){
+  examStudentStatusTimer=setInterval(()=>{
+   if(db && !$("dashboard")?.classList.contains("hidden")) loadExamStudentStatus();
+  },30000);
+ }
+ loadAdmitClassRelease();
+ loadActivityLogs();
+ loadAllAdmitSchedules();
+}
+
+function populateParentExamSessions(){
+ const sel=$("activeExamSession");
+ if(!sel) return;
+ sel.innerHTML=PARENT_EXAM_SESSIONS.map(x=>`<option value="${x}">${x}</option>`).join("");
+}
+
+async function loadActiveExamSession(){
+ populateParentExamSessions();
+ try{
+  const r=await db.rpc("get_exam_form_active_config");
+  if(r.error) throw r.error;
+  const d=Array.isArray(r.data)?r.data[0]:r.data;
+  if(!d) throw new Error("Active examination setting not found");
+  $("activeExamSession").value=d.active_session;
+  $("activeExamName").value=d.active_examination;
+  const st=$("activeExamSessionStatus");
+  st.textContent="ACTIVE: "+(d.examination_label||((d.active_examination||"")+" "+(d.active_session||"")));
+  st.className="status-pill open";
+ }catch(e){
+  console.error(e);
+  msg("activeExamSessionMessage","Active Examination setting load failed: "+(e.message||e),false);
+ }
+}
+
+async function saveActiveExamSession(){
+ const session=$("activeExamSession").value;
+ const exam=$("activeExamName").value;
+ if(!session||!exam){msg("activeExamSessionMessage","Session और Examination चुनें।",false);return;}
+ const r=await db.rpc("admin_set_exam_form_active_config",{p_password:ADMIN_PASSWORD,p_session:session,p_examination:exam});
+ if(r.error){msg("activeExamSessionMessage","Save failed: "+r.error.message,false);return;}
+ const d=Array.isArray(r.data)?r.data[0]:r.data;
+ const label=d?.examination_label||(exam+" "+session);
+ const st=$("activeExamSessionStatus");
+ st.textContent="ACTIVE: "+label;
+ st.className="status-pill open";
+ msg("activeExamSessionMessage","Parent side पर "+label+" का Examination Form अब active कर दिया गया है।",true);
 }
 
 async function loadWindowSettings(){
@@ -452,6 +812,51 @@ async function closeFormWindow(){
  if(r.error){msg("settingsMessage","Close failed: "+r.error.message,false);return;}
  msg("settingsMessage","Parent Examination Form CLOSE कर दिया गया।",true); await loadWindowSettings();
 }
+async function openNewStudent(){
+ $("newStudentModal").classList.remove("hidden");
+ $("newStudentMessage").textContent="";
+ $("newStudentClass").value="";
+ $("newStudentName").value="";
+ $("newStudentRollCode").value="";
+ $("newStudentRollNo").value="";
+ $("newStudentPin").value="";
+ $("newStudentRollMessage").textContent="Class select करें — Roll Code, Roll No और PIN अपने-आप आएगा।";
+}
+function closeNewStudent(){ $("newStudentModal").classList.add("hidden"); }
+async function previewNewStudentRoll(){
+ const cls=$("newStudentClass").value;
+ const code=DIRECT_ROLL_CODES[cls]||"";
+ $("newStudentRollCode").value=code;
+ $("newStudentRollNo").value="";
+ $("newStudentPin").value="";
+ if(!cls){$("newStudentRollMessage").textContent="Class select करें — Roll Code, Roll No और PIN अपने-आप आएगा।";return;}
+ $("newStudentRollMessage").textContent="Next Roll No निकाला जा रहा है...";
+ const r=await db.rpc("admin_get_next_student_roll",{p_password:ADMIN_PASSWORD,p_class_name:cls});
+ if(r.error){msg("newStudentMessage","Roll No load failed: "+r.error.message,false);$("newStudentRollMessage").textContent="Roll No नहीं निकला।";return;}
+ const d=Array.isArray(r.data)?r.data[0]:r.data;
+ $("newStudentRollNo").value=d?.roll_no||"";
+ $("newStudentRollMessage").textContent=`${cls}: ${code} • Next Roll No: ${d?.roll_no||"—"} • PIN Save करते समय automatic बनेगा`;
+}
+async function saveNewStudent(){
+ const cls=$("newStudentClass").value.trim();
+ const name=$("newStudentName").value.trim();
+ if(!cls||!name){msg("newStudentMessage","Class और Student Name जरूरी है।",false);return;}
+ const btn=$("saveNewStudentBtn");btn.disabled=true;
+ try{
+  const r=await db.rpc("admin_add_new_student",{p_password:ADMIN_PASSWORD,p_class_name:cls,p_name:name});
+  if(r.error)throw r.error;
+  const d=Array.isArray(r.data)?r.data[0]:r.data;
+  $("newStudentRollCode").value=d?.roll_code||DIRECT_ROLL_CODES[cls]||"";
+  $("newStudentRollNo").value=d?.roll_no||"";
+  $("newStudentPin").value=d?.pin||"";
+  msg("newStudentMessage",`✅ Student successfully added. Roll Code: ${d?.roll_code||"—"} | Roll No: ${d?.roll_no||"—"} | Automatic PIN: ${d?.pin||"—"}`,true);
+  $("newStudentRollMessage").textContent="अब Parent Examination Form में इसी Roll Code + Roll No + PIN से login करके बाकी details भर सकता है।";
+  // Refresh the full-school Submitted/Not Submitted report immediately after adding a student.
+  // The report also polls Supabase every 30 seconds, so students added elsewhere appear automatically too.
+  await loadExamStudentStatus();
+ }catch(e){console.error(e);msg("newStudentMessage","Student save failed: "+(e.message||e),false);}finally{btn.disabled=false;}
+}
+
 function openDirectForm(){ $("directModal").classList.remove("hidden"); $("directMessage").textContent=""; directStudent=null; $("directStudentBox").textContent="Student verification pending."; renderDirectSubjects([]); }
 function closeDirectForm(){ $("directModal").classList.add("hidden"); }
 function renderDirectSubjects(selected=[]){ const set=new Set(selected.map(String)); $("directSubjects").innerHTML=DIRECT_SUBJECTS.map(s=>`<label class="subject-check"><input type="checkbox" class="direct-subject" value="${esc(s)}" ${set.has(s)?"checked":""}> <span>${esc(s)}</span></label>`).join(""); }
@@ -498,19 +903,225 @@ async function loadForms(){
  }
 
  forms=r.data||[];
+
+ // Safe Archive state अलग secure RPC से load किया जा रहा है।
+ // Archived forms delete नहीं होते; केवल सामान्य list से hidden रहते हैं।
+ try{
+  const ar=await db.rpc("admin_get_exam_form_archives",{p_password:ADMIN_PASSWORD});
+  const archiveMap=new Map();
+  if(!ar.error && Array.isArray(ar.data)){
+   ar.data.forEach(x=>archiveMap.set(String(x.form_id||""),x));
+  }else if(ar.error){
+   console.warn("Archive state load failed:",ar.error);
+  }
+  forms=forms.map(f=>({...f,
+   _archived:archiveMap.has(String(f.form_id||f.submission_id||f.id||"")),
+   _archive_info:archiveMap.get(String(f.form_id||f.submission_id||f.id||""))||null
+  }));
+ }catch(archiveErr){
+  console.warn("Archive state load exception:",archiveErr);
+  forms=forms.map(f=>({...f,_archived:false,_archive_info:null}));
+ }
+
+ // Admin Note अलग secure RPC से load किया जा रहा है, क्योंकि पुराने
+ // admin_get_exam_forms RPC में admin_note field शामिल नहीं है।
+ try{
+  const nr=await db.rpc("admin_get_exam_form_notes",{p_password:ADMIN_PASSWORD});
+  if(!nr.error && Array.isArray(nr.data)){
+   const noteMap=new Map(
+    nr.data.map(x=>[String(x.form_id||""),String(x.admin_note||"")])
+   );
+   forms=forms.map(f=>({...f,admin_note:noteMap.get(String(f.form_id||""))||""}));
+  }else if(nr.error){
+   console.warn("Admin Note load failed:",nr.error);
+  }
+ }catch(noteErr){
+  console.warn("Admin Note load exception:",noteErr);
+ }
+
  updateStats();
  render();
+ renderArchivedForms();
  msg("dataMessage",forms.length+" examination forms मिले।",true);
+ // Added read-only class-wise student/form status; existing form workflow unchanged.
+ await loadExamStudentStatus();
 }
+
+
+// Read-only class-wise comparison: student master list (Supabase) vs submitted forms.
+let examStudentMasterList = [];
+let examStudentSubmittedForms = [];
+let examStudentStatusTimer = null;
+const EXAM_STATUS_CLASS_ORDER = ["Nursery","LKG","UKG","Class 1","Class 2","Class 3","Class 4","Class 5","Class 6","Class 7","Class 8"];
+function examStatusNorm(v){ return String(v == null ? "" : v).trim().toLowerCase().replace(/\s+/g," "); }
+function examStatusClassLabel(v){
+ const n=examStatusNorm(v);
+ return EXAM_STATUS_CLASS_ORDER.find(c=>examStatusNorm(c)===n) || String(v||"").trim();
+}
+function examStatusKey(x){
+ return [examStatusNorm(x.roll_code), examStatusNorm(x.roll_no)].join("|");
+}
+async function loadExamStudentStatus(){
+ const box=$("examStudentStatusRows");
+ if(!db || !box) return;
+ const message=$("examStudentStatusMessage");
+ if(message){message.textContent="Supabase student list load हो रही है...";message.className="msg";}
+ try{
+  // Read the latest submitted forms independently so the bottom report can refresh
+  // without re-rendering or disturbing the main admin form list/edit workflow.
+  const [sr,fr]=await Promise.all([
+   db.rpc("admin_get_exam_student_list",{p_password:ADMIN_PASSWORD}),
+   db.rpc("admin_get_exam_forms",{p_password:ADMIN_PASSWORD})
+  ]);
+  if(sr.error) throw sr.error;
+  if(fr.error) throw fr.error;
+  examStudentMasterList=Array.isArray(sr.data)?sr.data:[];
+  examStudentSubmittedForms=Array.isArray(fr.data)?fr.data:[];
+  renderExamStudentStatus();
+  if(message){
+   message.textContent=examStudentMasterList.length
+    ? "Student list Supabase से update हुई। Submitted status वर्तमान Examination Form records से मिलाया गया है।"
+    : "Supabase से student list खाली मिली। SQL/RPC और Session 2026-27 की जाँच करें।";
+   message.className="msg "+(examStudentMasterList.length?"ok":"err");
+  }
+ }catch(e){
+  console.error("Class-wise student status load failed:",e);
+  if(message){message.textContent="Student list load नहीं हुई: "+(e.message||e)+" — admin_get_exam_student_list RPC को Supabase में जाँचें।";message.className="msg err";}
+  if(box)box.innerHTML="";
+ }
+}
+function renderExamStudentStatus(){
+ const root=$("examStudentStatusRows");
+ if(!root) return;
+ const selected=examStatusNorm($("examStudentStatusClass")?.value);
+ const query=examStatusNorm($("examStudentStatusSearch")?.value);
+ const submittedKeys=new Set((Array.isArray(examStudentSubmittedForms)?examStudentSubmittedForms:[]).map(f=>examStatusKey(f)));
+ const rows=examStudentMasterList.map(s=>{
+  const key=examStatusKey(s);
+  const matched=!!(s.roll_code && s.roll_no && submittedKeys.has(key));
+  return {...s,_status:matched?"Submitted":"Not Submitted",_class:examStatusClassLabel(s.class_name)};
+ }).filter(s=>(!selected||examStatusNorm(s._class)===selected)&&(!query||[s.name,s.roll_no,s.roll_code,s.class_name].map(examStatusNorm).join(" ").includes(query)));
+ const all=examStudentMasterList.map(s=>({...s,_submitted:!!(s.roll_code&&s.roll_no&&submittedKeys.has(examStatusKey(s)))}));
+ const total=all.length, submitted=all.filter(s=>s._submitted).length;
+ if($("statusStudentsTotal"))$("statusStudentsTotal").textContent=String(total);
+ if($("statusStudentsSubmitted"))$("statusStudentsSubmitted").textContent=String(submitted);
+ if($("statusStudentsNotSubmitted"))$("statusStudentsNotSubmitted").textContent=String(total-submitted);
+ if(!rows.length){root.innerHTML='<p class="note" style="text-align:center;padding:14px">इस filter में कोई student नहीं मिला।</p>';return;}
+ const order=EXAM_STATUS_CLASS_ORDER;
+ const groups=(selected ? [examStatusClassLabel($("examStudentStatusClass").value)] : order)
+  .map(c=>({name:c,students:rows.filter(s=>examStatusNorm(s._class)===examStatusNorm(c))}))
+  .filter(g=>g.students.length);
+ root.innerHTML=groups.map(g=>{
+  const gs=g.students, sub=gs.filter(s=>s._status==="Submitted").length;
+  return `<div class="card" style="margin:12px 0;padding:12px">
+   <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap">
+    <h3 style="margin:0;color:#0b2454">${esc(g.name)}</h3>
+    <b>Total: ${gs.length} &nbsp; | &nbsp; Submitted: ${sub} &nbsp; | &nbsp; Not Submitted: ${gs.length-sub}</b>
+   </div>
+   <div class="table-wrap" style="margin-top:10px"><table class="dashboard-table">
+    <thead><tr><th>Roll No</th><th>Roll Code</th><th>Student Name</th><th>Form Status</th></tr></thead>
+    <tbody>${gs.map(s=>`<tr>
+     <td>${esc(s.roll_no||"—")}</td><td>${esc(s.roll_code||"—")}</td><td>${esc(s.name||"—")}</td>
+     <td><span class="status-pill ${s._status==="Submitted"?"open":"closed"}">${s._status}</span></td>
+    </tr>`).join("")}</tbody>
+   </table></div></div>`;
+ }).join("");
+}
+async function refreshExamStudentStatus(){
+ // Refresh only this read-only report; do not reload or disturb the main admin form list.
+ await loadExamStudentStatus();
+}
+function examStudentStatusExportRows(){
+ const selected=examStatusNorm($("examStudentStatusClass")?.value);
+ const query=examStatusNorm($("examStudentStatusSearch")?.value);
+ const submittedKeys=new Set((Array.isArray(examStudentSubmittedForms)?examStudentSubmittedForms:[]).map(f=>examStatusKey(f)));
+ return (Array.isArray(examStudentMasterList)?examStudentMasterList:[]).map(s=>({...s,
+  _class:examStatusClassLabel(s.class_name),
+  _status:(s.roll_code&&s.roll_no&&submittedKeys.has(examStatusKey(s)))?"Submitted":"Not Submitted"
+ })).filter(s=>(!selected||examStatusNorm(s._class)===selected)&&(!query||[s.name,s.roll_no,s.roll_code,s.class_name,s._status].map(examStatusNorm).join(" ").includes(query)))
+ .sort((a,b)=>EXAM_STATUS_CLASS_ORDER.indexOf(a._class)-EXAM_STATUS_CLASS_ORDER.indexOf(b._class)||String(a.roll_no||"").localeCompare(String(b.roll_no||""),undefined,{numeric:true}));
+}
+function exportExamStudentStatus(mode){
+ const rows=examStudentStatusExportRows();
+ if(!rows.length){alert("इस filter में export करने के लिए कोई student नहीं है।");return;}
+ const title="SHREE SHANKARACHARYA VIDYAPITH — Exam Form Status";
+ const classGroups=[...new Set(rows.map(s=>s._class))];
+ const content=classGroups.map(cls=>{
+  const classRows=rows.filter(s=>s._class===cls);
+  const section=(status)=>{
+   const items=classRows.filter(s=>s._status===status);
+   return `<h3>${status} (${items.length})</h3><table><thead><tr><th>Sl.</th><th>Student Name</th><th>Roll Code</th><th>Roll No</th><th>Form Status</th></tr></thead><tbody>${items.length?items.map((s,i)=>`<tr><td>${i+1}</td><td>${esc(s.name||"—")}</td><td>${esc(s.roll_code||"—")}</td><td>${esc(s.roll_no||"—")}</td><td>${status}</td></tr>`).join(""):`<tr><td colspan="5">No students</td></tr>`}</tbody></table>`;
+  };
+  return `<section><h2>${esc(cls)} — Total ${classRows.length}</h2>${section("Submitted")}${section("Not Submitted")}</section>`;
+ }).join("");
+ const submitted=rows.filter(s=>s._status==="Submitted").length;
+ const html=`<!doctype html><html><head><meta charset="utf-8"><title>${title}</title><style>body{font-family:Arial,sans-serif;color:#172033;margin:22px}h1{text-align:center;font-size:20px}h2{background:#eaf0fb;padding:8px;border:1px solid #ccd7e8}h3{margin:12px 0 5px}p{text-align:center}table{width:100%;border-collapse:collapse;margin-bottom:18px;font-size:12px}th,td{border:1px solid #777;padding:6px;text-align:left}th{background:#f0f2f5}section{break-inside:avoid;margin-top:18px}.toolbar{text-align:center;margin-bottom:16px}@media print{.toolbar{display:none}body{margin:10mm}h2{break-after:avoid}table{break-inside:auto}tr{break-inside:avoid}}</style></head><body><div class="toolbar"><button onclick="window.print()">Print / Save as PDF</button></div><h1>${title}</h1><p>Session 2026-27 | Total Students: ${rows.length} | Submitted: ${submitted} | Not Submitted: ${rows.length-submitted}</p>${content}<script>window.addEventListener('load',()=>{if(new URLSearchParams(location.search).get('autoprint')==='1')setTimeout(()=>window.print(),400)});<\/script></body></html>`;
+ const w=window.open("","_blank");
+ if(!w){alert("Popup blocked है। Browser में pop-ups allow करके फिर कोशिश करें।");return;}
+ w.document.open();w.document.write(html);w.document.close();
+ if(mode==="pdf") setTimeout(()=>{try{w.focus();w.print();}catch(e){}},500);
+}
+async function downloadExamStudentStatusImage(){
+ const rows=examStudentStatusExportRows();
+ if(!rows.length){alert("इस filter में image बनाने के लिए कोई student नहीं है।");return;}
+ const selected=$("examStudentStatusClass")?.value||"All Classes";
+ const lineHeight=30, pad=28, headerHeight=135, height=Math.min(30000,headerHeight+rows.length*lineHeight+30), width=1200;
+ const safe=v=>String(v==null?"—":v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+ const submitted=rows.filter(s=>s._status==="Submitted").length;
+ let y=headerHeight;
+ const rowSvg=rows.slice(0,Math.floor((height-headerHeight-30)/lineHeight)).map((s,i)=>{const yy=y+i*lineHeight;const bg=i%2?"#f4f7fb":"#ffffff";return `<rect x="${pad}" y="${yy}" width="${width-pad*2}" height="${lineHeight}" fill="${bg}"/><path d="M${pad} ${yy+lineHeight}H${width-pad}" stroke="#cbd5e1"/><text x="${pad+8}" y="${yy+20}" font-size="15" fill="#172033">${i+1}</text><text x="${pad+58}" y="${yy+20}" font-size="15" fill="#172033">${safe(s._class)}</text><text x="${pad+210}" y="${yy+20}" font-size="15" fill="#172033">${safe(s.name)}</text><text x="${pad+610}" y="${yy+20}" font-size="15" fill="#172033">${safe(s.roll_code)}</text><text x="${pad+790}" y="${yy+20}" font-size="15" fill="#172033">${safe(s.roll_no)}</text><text x="${pad+930}" y="${yy+20}" font-size="15" font-weight="bold" fill="${s._status==='Submitted'?'#147d42':'#b42318'}">${s._status}</text>`;}).join("");
+ const actualHeight=headerHeight+Math.min(rows.length,Math.floor((height-headerHeight-30)/lineHeight))*lineHeight+25;
+ const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${actualHeight}" viewBox="0 0 ${width} ${actualHeight}"><rect width="100%" height="100%" fill="white"/><text x="${width/2}" y="35" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold" fill="#0b2454">SHREE SHANKARACHARYA VIDYAPITH</text><text x="${width/2}" y="65" text-anchor="middle" font-family="Arial" font-size="18" fill="#172033">Exam Form Status — ${safe(selected)}</text><text x="${width/2}" y="93" text-anchor="middle" font-family="Arial" font-size="15" fill="#172033">Total: ${rows.length} | Submitted: ${submitted} | Not Submitted: ${rows.length-submitted}</text><rect x="${pad}" y="${headerHeight-28}" width="${width-pad*2}" height="28" fill="#dce6f5"/><g font-family="Arial" font-weight="bold" font-size="15" fill="#172033"><text x="${pad+8}" y="${headerHeight-9}">Sl.</text><text x="${pad+58}" y="${headerHeight-9}">Class</text><text x="${pad+210}" y="${headerHeight-9}">Student Name</text><text x="${pad+610}" y="${headerHeight-9}">Roll Code</text><text x="${pad+790}" y="${headerHeight-9}">Roll No</text><text x="${pad+930}" y="${headerHeight-9}">Form Status</text></g>${rowSvg}</svg>`;
+ try{
+  const blob=new Blob([svg],{type:"image/svg+xml;charset=utf-8"}),url=URL.createObjectURL(blob),img=new Image();
+  img.onload=()=>{try{const canvas=document.createElement("canvas");canvas.width=width;canvas.height=actualHeight;const ctx=canvas.getContext("2d");ctx.fillStyle="#ffffff";ctx.fillRect(0,0,width,actualHeight);ctx.drawImage(img,0,0);canvas.toBlob(png=>{if(!png){alert("Image generate नहीं हो पाई।");return;}const a=document.createElement("a");a.href=URL.createObjectURL(png);a.download="SSVP_Exam_Form_Status.png";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000);},"image/png");}catch(e){alert("Image download नहीं हो पाया: "+e.message);}finally{URL.revokeObjectURL(url);}};
+  img.onerror=()=>{URL.revokeObjectURL(url);alert("Image generate नहीं हो पाई।");};img.src=url;
+  if(rows.length>Math.floor((height-headerHeight-30)/lineHeight))alert("Image की लंबाई सीमा के कारण केवल पहली सूची डाउनलोड होगी। पूरी सूची के लिए Print / Save as PDF इस्तेमाल करें।");
+ }catch(e){alert("Image download नहीं हो पाया: "+(e.message||e));}
+}
+
+function indiaDateKey(value){try{if(!value)return "";const d=new Date(value);if(Number.isNaN(d.getTime()))return String(value).slice(0,10);return new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Kolkata",year:"numeric",month:"2-digit",day:"2-digit"}).format(d)}catch(e){return String(value||"").slice(0,10)}}
+function renderDateWiseReport(){const body=$("dateWiseReportRows"),foot=$("dateWiseReportTotal");if(!body)return;const from=$("reportFromDate")?.value||"",to=$("reportToDate")?.value||"",statusOf=x=>String(x.status||"pending").toLowerCase(),reviewOf=x=>String(x.form_classification||"unreviewed").toLowerCase(),source=forms.filter(f=>{const d=indiaDateKey(f.submitted_at||f.created_at);return !f._archived&&d&&(!from||d>=from)&&(!to||d<=to)}),map={};source.forEach(f=>{const d=indiaDateKey(f.submitted_at||f.created_at);if(!map[d])map[d]={total:0,pending:0,approved:0,rejected:0,valid:0,unvalid:0,duplicate:0,unduplicate:0};const r=map[d];r.total++;const st=statusOf(f);if(st==="pending")r.pending++;else if(st==="approved")r.approved++;else if(st==="rejected")r.rejected++;const rv=reviewOf(f);if(rv==="valid")r.valid++;else if(rv==="duplicate")r.duplicate++;else{r.unvalid++;r.unduplicate++}});const dates=Object.keys(map).sort().reverse();body.innerHTML=dates.length?dates.map(d=>{const r=map[d];return `<tr><td><b>${esc(d.split("-").reverse().join("-"))}</b></td><td>${r.total}</td><td>${r.pending}</td><td>${r.approved}</td><td>${r.rejected}</td><td>${r.valid}</td><td>${r.unvalid}</td><td>${r.duplicate}</td><td>${r.unduplicate}</td></tr>`}).join(""):`<tr><td colspan="9">No form found for selected date range.</td></tr>`;const t={total:0,pending:0,approved:0,rejected:0,valid:0,unvalid:0,duplicate:0,unduplicate:0};source.forEach(f=>{t.total++;const st=statusOf(f);if(st==="pending")t.pending++;else if(st==="approved")t.approved++;else if(st==="rejected")t.rejected++;const rv=reviewOf(f);if(rv==="valid")t.valid++;else if(rv==="duplicate")t.duplicate++;else{t.unvalid++;t.unduplicate++}});foot.innerHTML=`<tr class="date-report-total"><td>Total</td><td>${t.total}</td><td>${t.pending}</td><td>${t.approved}</td><td>${t.rejected}</td><td>${t.valid}</td><td>${t.unvalid}</td><td>${t.duplicate}</td><td>${t.unduplicate}</td></tr>`}
+function resetDateWiseReport(){if($("reportFromDate"))$("reportFromDate").value="";if($("reportToDate"))$("reportToDate").value="";renderDateWiseReport()}
+
 function updateStats(){
- $("total").textContent=forms.length;
- $("pending").textContent=forms.filter(x=>String(x.status||"pending").toLowerCase()==="pending").length;
- $("approved").textContent=forms.filter(x=>String(x.status||"").toLowerCase()==="approved").length;
- $("rejected").textContent=forms.filter(x=>String(x.status||"").toLowerCase()==="rejected").length;
- const vc=forms.filter(x=>String(x.form_classification||"").toLowerCase()==="valid").length;
- const dc=forms.filter(x=>String(x.form_classification||"").toLowerCase()==="duplicate").length;
+ const statusOf=x=>String(x.status||"pending").toLowerCase();
+ const reviewOf=x=>String(x.form_classification||"unreviewed").toLowerCase();
+ const active=forms.filter(x=>!x._archived);
+ const total=active.length;
+ const pending=active.filter(x=>statusOf(x)==="pending").length;
+ const approved=active.filter(x=>statusOf(x)==="approved").length;
+ const rejected=active.filter(x=>statusOf(x)==="rejected").length;
+ const vc=active.filter(x=>reviewOf(x)==="valid").length;
+ const dc=active.filter(x=>reviewOf(x)==="duplicate").length;
+ const unreviewed=active.filter(x=>!x.form_classification || reviewOf(x)==="unreviewed").length;
+ const archivedCount=forms.filter(x=>x._archived).length;
+ $("total").textContent=total;
+ $("pending").textContent=pending;
+ $("approved").textContent=approved;
+ $("rejected").textContent=rejected;
  if($("validCount"))$("validCount").textContent=vc;
  if($("duplicateCount"))$("duplicateCount").textContent=dc;
+ if($("archivedCount"))$("archivedCount").textContent=archivedCount;
+ if($("dashTotal"))$("dashTotal").textContent=total;
+ if($("dashPending"))$("dashPending").textContent=pending;
+ if($("dashApproved"))$("dashApproved").textContent=approved;
+ if($("dashRejected"))$("dashRejected").textContent=rejected;
+ if($("dashValid"))$("dashValid").textContent=vc;
+ if($("dashUnvalid"))$("dashUnvalid").textContent=unreviewed;
+ if($("dashDuplicate"))$("dashDuplicate").textContent=dc;
+ if($("dashUnduplicate"))$("dashUnduplicate").textContent=unreviewed;
+ const classOrder=["Nursery","LKG","UKG","Class 1","Class 2","Class 3","Class 4","Class 5","Class 6","Class 7","Class 8"];
+ if($("classSummaryRows")){
+  $("classSummaryRows").innerHTML=classOrder.map(label=>{
+   const rows=active.filter(f=>normalizedClass(f.class_name)===label.toLowerCase());
+   const cp=rows.filter(x=>statusOf(x)==="pending").length;
+   const ca=rows.filter(x=>statusOf(x)==="approved").length;
+   const cr=rows.filter(x=>statusOf(x)==="rejected").length;
+   return `<tr><td><b>${esc(label)}</b></td><td>${rows.length}</td><td>${cp}</td><td>${ca}</td><td>${cr}</td></tr>`;
+  }).join("");
+ }
+ renderDateWiseReport();
 }
 
 
@@ -562,6 +1173,49 @@ function renderAdmitScheduleRows(saved=[]){
  }).join("");
 }
 
+function admitReleaseExamValue(){
+ const el=$("admitReleaseControlExam");
+ return el ? el.value : $("admitExamName").value;
+}
+
+function renderAdmitClassRelease(rows=[]){
+ const map=new Map((rows||[]).map(x=>[String(x.class_name||"").trim().toUpperCase(),!!x.is_released]));
+ const body=$("admitClassReleaseRows");
+ if(!body)return;
+ body.innerHTML=ADMIT_RELEASE_CLASSES.map(cls=>{
+   const released=map.get(cls)===true;
+   return `<tr>
+    <td><b>${esc(cls)}</b></td>
+    <td><span class="release-status-pill ${released?"release-status-released":"release-status-not"}">${released?"RELEASED":"NOT RELEASED"}</span></td>
+    <td><button class="${released?"red":"green"}" onclick="setAdmitClassRelease('${cls.replace(/'/g,"\\'")}',${released})">${released?"↩️ Set Not Released":"✅ Release Admit Card"}</button></td>
+   </tr>`;
+ }).join("");
+}
+
+async function loadAdmitClassRelease(){
+ if(!db)return;
+ const exam=admitReleaseExamValue();
+ const r=await db.rpc("ssvp_admin_get_admit_class_release",{p_password:ADMIN_PASSWORD,p_exam_name:exam});
+ if(r.error){msg("admitClassReleaseMessage","Release status load failed: "+r.error.message,false);return;}
+ renderAdmitClassRelease(r.data||[]);
+}
+
+async function setAdmitClassRelease(className,currentReleased){
+ if(!db)return;
+ const exam=admitReleaseExamValue();
+ const next=!currentReleased;
+ const label=next?"RELEASED":"NOT RELEASED";
+ if(!confirm(`${className} का Admit Card ${label} करना है?`))return;
+ const r=await db.rpc("ssvp_admin_set_admit_class_release",{
+   p_password:ADMIN_PASSWORD,p_exam_name:exam,p_class_name:className,p_is_released:next
+ });
+ if(r.error){msg("admitClassReleaseMessage","Save failed: "+r.error.message,false);return;}
+ await logAdminActivity(next?"Admit Card Class Released":"Admit Card Class Unreleased",null,"",className+" / "+exam+" → "+label);
+ renderAdmitClassRelease((await db.rpc("ssvp_admin_get_admit_class_release",{p_password:ADMIN_PASSWORD,p_exam_name:exam})).data||[]);
+ await loadActivityLogs();
+ msg("admitClassReleaseMessage",className+" — "+label+" successfully saved.",true);
+}
+
 async function loadAdmitSettings(){
  if(!db)return;
  const exam=$("admitExamName").value;
@@ -583,6 +1237,62 @@ async function saveAdmitReleaseDate(){
  });
  if(r.error){msg("admitReleaseMessage","Save failed: "+r.error.message,false);return;}
  msg("admitReleaseMessage","Admit Card fixed Download Date successfully saved: "+date,true);
+}
+
+async function loadAllAdmitSchedules(){
+ if(!db)return;
+ const exam=$("admitExamName").value;
+ const container=$("allAdmitSchedulesContainer");
+ const message=$("allAdmitSchedulesMessage");
+ if(!container)return;
+ message.textContent="Schedule load हो रहा है...";
+ message.className="msg";
+ const classes=["NURSERY","LKG","UKG","CLASS 1","CLASS 2","CLASS 3","CLASS 4","CLASS 5","CLASS 6","CLASS 7","CLASS 8"];
+ try{
+  const results=await Promise.all(classes.map(cls=>db.rpc("ssvp_admin_get_admit_schedule",{
+    p_password:ADMIN_PASSWORD,p_exam_name:exam,p_class_name:cls
+  })));
+  const blocks=results.map((r,idx)=>{
+    const cls=classes[idx];
+    if(r.error) return `<div class="release-box" style="margin-bottom:12px"><h3 style="margin:0;color:#0b2454">${esc(cls)}</h3><div class="msg err">Schedule load failed: ${esc(r.error.message)}</div></div>`;
+    const rows=Array.isArray(r.data)?r.data:[];
+    const subjectMap=new Map(rows.map(x=>[String(x.subject||"").trim().toUpperCase(),x]));
+    const subjects=admitClassSubjects(cls);
+    const scheduleRows=subjects.map(sub=>{
+      const x=subjectMap.get(sub.toUpperCase())||{};
+      const date=x.exam_date?new Date(String(x.exam_date).slice(0,10)+"T00:00:00").toLocaleDateString("en-IN"):"—";
+      const start=x.start_time?String(x.start_time).slice(0,5):"—";
+      const end=x.end_time?String(x.end_time).slice(0,5):"—";
+      return `<tr><td><b>${esc(sub)}</b></td><td>${esc(date)}</td><td>${esc(start)} – ${esc(end)}</td></tr>`;
+    }).join("");
+    return `<div class="release-box" style="margin-bottom:14px;overflow:auto">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px">
+       <h3 style="margin:0;color:#0b2454">${esc(cls)}</h3>
+       <button class="gray" onclick="editAllAdmitSchedule('${esc(cls)}')">✏️ Edit ${esc(cls)}</button>
+      </div>
+      <table class="admit-schedule-table"><thead><tr><th>Subject</th><th>Date</th><th>Exam Time</th></tr></thead><tbody>${scheduleRows}</tbody></table>
+     </div>`;
+  }).join("");
+  container.innerHTML=blocks;
+  message.textContent=exam+" का सभी classes का schedule loaded.";
+  message.className="msg ok";
+ }catch(e){
+  message.textContent="Schedule load failed: "+(e?.message||e);
+  message.className="msg err";
+ }
+}
+
+function editAllAdmitSchedule(cls){
+ const exam=$("admitExamName");
+ const classSelect=$("admitClass");
+ if(exam) exam.scrollIntoView({behavior:"smooth",block:"center"});
+ if(exam) exam.focus();
+ if(classSelect){
+   classSelect.value=cls;
+   loadAdmitSchedule();
+ }
+ const card=$("admitCardManagement");
+ if(card) card.scrollIntoView({behavior:"smooth",block:"start"});
 }
 
 async function loadAdmitSchedule(){
@@ -658,6 +1368,9 @@ async function openOrGenerateAdmitCard(i){
    p_subjects:subjects
  });
  if(r.error){console.error(r.error);alert("Admit Card generate failed: "+r.error.message);return;}
+
+ await logAdminActivity("Admit Card Generated",String(fid),f.student_name||"","Admit Card generated for "+(f.class_name||"Class")+" / "+(exam||"Examination"));
+ await loadActivityLogs();
 
  // Generate सफल होते ही Admin Panel की उसी row में RELEASED status तुरंत दिखाएँ।
  admitStatusCache.set(String(fid),"released");
@@ -819,14 +1532,19 @@ async function refreshAdmitStatuses(list){
 }
 
 function render(){
- const search=$("search").value.trim().toLowerCase();
- const cls=$("classFilter").value.toLowerCase();
+ const enhanced=(window.__enhancedStudentSearch||{q:"",c:""});
+ const baseSearch=$("search")?.value.trim().toLowerCase()||"";
+ const search=String(enhanced.q||baseSearch).trim().toLowerCase();
+ const baseCls=$("classFilter")?.value.toLowerCase()||"";
+ const cls=String(enhanced.c||baseCls).trim().toLowerCase();
  const status=$("statusFilter").value.toLowerCase();
 
  const list=forms.filter(f=>{
+  if(status!=="archived" && f._archived) return false;
+  if(status==="archived" && !f._archived) return false;
   const hay=[
    f.form_id,f.submission_id,f.student_name,f.roll_no,f.roll_code,
-   f.parent_mobile,f.father_name,f.mother_name
+   f.parent_mobile,f.father_name,f.mother_name,f.examination,f.class_name
   ].map(v=>String(v??"").toLowerCase()).join(" ");
   const okSearch=!search||hay.includes(search);
   const okClass=!cls||normalizedClass(f.class_name)===cls;
@@ -835,7 +1553,7 @@ function render(){
   const reviewFilterMatch = status==="unvalid" || status==="unduplicate"
    ? (!review || review==="unreviewed")
    : review===status;
-  const okStatus=!status || formStatus===status || reviewFilterMatch;
+  const okStatus=status==="archived" ? true : (!status || formStatus===status || reviewFilterMatch);
   return okSearch&&okClass&&okStatus;
  });
 
@@ -852,6 +1570,7 @@ function render(){
   const admitLabel=admitState==="released"?"RELEASED":admitState==="not-released"?"NOT RELEASED":admitState==="unknown"?"CHECK AGAIN":"CHECKING";
   const admitClass=admitState==="released"?"admit-released":admitState==="not-released"?"admit-not-released":"admit-checking";
   return `<tr>
+   <td style="text-align:center"><input type="checkbox" class="selected-form-checkbox" data-form-key="${esc(fid)}" aria-label="Select form"></td>
    <td><b>${esc(fid)}</b></td>
    <td><b>${esc(f.student_name||"—")}</b></td>
    <td>${esc(f.class_name||"—")}</td>
@@ -869,6 +1588,9 @@ function render(){
     ${st!=="approved"?`<button class="green" onclick="changeStatus(${i},'approved')">Approve</button>`:""}
     ${st!=="rejected"?`<button class="red" onclick="changeStatus(${i},'rejected')">Reject</button>`:""}
     <button class="gray" onclick="editForm(${i})">✏️ Edit</button>
+    ${f._archived
+      ?`<button class="green" onclick="restoreForm(${i})">♻️ Restore</button>`
+      :`<button class="gray" onclick="archiveForm(${i})">🗄️ Archive</button>`}
     ${review==="valid"
       ?`<button class="gray" onclick="setReviewStatus(${i},'unvalid')">↩️ Unvalid</button>`
       :`<button class="green" onclick="setReviewStatus(${i},'valid')">✅ Valid</button>`}
@@ -878,8 +1600,65 @@ function render(){
     ${st==="approved"?`<button class="green" onclick="openOrGenerateAdmitCard(${i})">🎫 View / Generate Admit Card</button>`:""}
    </div></td>
   </tr>`;
- }).join(""):`<tr><td colspan="13" style="text-align:center;padding:25px">कोई examination form नहीं मिला।</td></tr>`;
+ }).join(""):`<tr><td colspan="14" style="text-align:center;padding:25px">कोई examination form नहीं मिला।</td></tr>`;
  if(list.length) refreshAdmitStatuses(list);
+}
+
+
+async function archiveForm(i){
+ const f=forms[i]; if(!f)return;
+ const id=f.form_id||f.submission_id||f.id;
+ if(!id){alert("Form ID नहीं मिला।");return;}
+ const name=f.student_name||"";
+ if(!confirm("इस form को Safe Archive करना है?\n\nForm permanently delete नहीं होगा। इसे Archived Forms से बाद में Restore किया जा सकता है।"))return;
+ msg("dataMessage","Form archive हो रहा है...",true);
+ try{
+  const r=await db.rpc("admin_archive_exam_form",{p_password:ADMIN_PASSWORD,p_form_id:String(id)});
+  if(r.error)throw r.error;
+  if(typeof logAdminActivity==="function") await logAdminActivity("Form Archived",String(id),name,"Form moved to Safe Archive");
+  await loadForms();
+  if(typeof loadActivityLogs==="function") await loadActivityLogs();
+  msg("dataMessage","Form safely Archived हो गया।",true);
+ }catch(e){console.error(e);msg("dataMessage","Archive failed: "+(e.message||e),false);}
+}
+
+async function restoreForm(i){
+ const f=forms[i]; if(!f)return;
+ const id=f.form_id||f.submission_id||f.id;
+ if(!id){alert("Form ID नहीं मिला।");return;}
+ const name=f.student_name||"";
+ if(!confirm("इस archived form को वापस Active Forms में Restore करना है?"))return;
+ msg("dataMessage","Form restore हो रहा है...",true);
+ try{
+  const r=await db.rpc("admin_restore_exam_form",{p_password:ADMIN_PASSWORD,p_form_id:String(id)});
+  if(r.error)throw r.error;
+  if(typeof logAdminActivity==="function") await logAdminActivity("Form Restored",String(id),name,"Form restored from Safe Archive");
+  await loadForms();
+  if(typeof loadActivityLogs==="function") await loadActivityLogs();
+  msg("dataMessage","Form successfully Restore हो गया।",true);
+ }catch(e){console.error(e);msg("dataMessage","Restore failed: "+(e.message||e),false);}
+}
+
+function renderArchivedForms(){
+ const box=$("archivedFormsList");
+ if(!box)return;
+ const rows=forms.filter(f=>!!f._archived);
+ if(!rows.length){box.innerHTML='<div class="note" style="padding:10px;background:#f8fafc;border-radius:10px">अभी कोई Archived Form नहीं है।</div>';return;}
+ box.innerHTML=rows.map(f=>{
+  const i=forms.indexOf(f);
+  const fid=f.form_id||f.submission_id||f.id||"—";
+  const date=f.submitted_at?new Date(f.submitted_at).toLocaleString("en-IN"):"—";
+  const archivedAt=f._archive_info?.archived_at?new Date(f._archive_info.archived_at).toLocaleString("en-IN"):"—";
+  return `<div style="border:1px solid #d7dee9;border-radius:12px;padding:12px;margin-bottom:10px;background:#f8fbff">
+    <div style="font-weight:800;color:#0b2454;font-size:16px">${esc(f.student_name||"—")}</div>
+    <div style="margin-top:5px;line-height:1.6">
+      <b>Form ID:</b> ${esc(fid)} &nbsp; | &nbsp; <b>Class:</b> ${esc(f.class_name||"—")}<br>
+      <b>Roll No:</b> ${esc(f.roll_no||"—")} &nbsp; | &nbsp; <b>Submitted:</b> ${esc(date)}<br>
+      <b>Archived:</b> ${esc(archivedAt)}
+    </div>
+    <div style="margin-top:9px"><button class="green" onclick="restoreForm(${i})">♻️ Restore Form</button></div>
+  </div>`;
+ }).join("");
 }
 
 function getSelectedSubjects(value){
@@ -901,11 +1680,29 @@ function getSelectedSubjects(value){
  return[];
 }
 
-function openDetails(i){
+async function openDetails(i){
  currentForm=forms[i];
  if(!currentForm)return;
  const f=currentForm;
- const fid=f.form_id||f.submission_id||"—";
+ const fid=f.form_id||f.submission_id||f.id||"—";
+ const cacheKey=String(fid);
+ // पहले current-session cache/table value रखें ताकि View में note कभी खाली न हो।
+ if(adminNoteCache.has(cacheKey)) f.admin_note=adminNoteCache.get(cacheKey);
+ // फिर Supabase से saved note refresh करें। खाली RPC result मिलने पर existing note को overwrite नहीं करें।
+ try{
+  const nr=await db.rpc("admin_get_exam_form_notes",{p_password:ADMIN_PASSWORD});
+  if(!nr.error && Array.isArray(nr.data)){
+   const found=nr.data.find(x=>String(x.form_id||"")===cacheKey);
+   if(found){
+    f.admin_note=String(found.admin_note||"");
+    adminNoteCache.set(cacheKey,f.admin_note);
+   }
+  }else if(nr.error){
+   console.warn("Admin Note view RPC failed:",nr.error);
+  }
+ }catch(noteErr){
+  console.warn("Admin Note view load failed:",noteErr);
+ }
  const date=f.submitted_at?new Date(f.submitted_at).toLocaleString("en-IN"):"—";
  const st=String(f.status||"pending").toLowerCase();
  const subjects=getSelectedSubjects(f.subjects);
@@ -929,6 +1726,10 @@ function openDetails(i){
    <div class="detail"><small>Student Result ID</small><b>${esc(f.student_result_id||"—")}</b></div>
   </div>
   <div class="detail" style="margin-top:10px">
+   <small>📝 Admin Note</small>
+   <b style="white-space:pre-wrap">${esc(f.admin_note||"—")}</b>
+  </div>
+  <div class="detail" style="margin-top:10px">
    <small>Selected Subjects</small>
    <div class="subject-list">${subjectsHtml}</div>
   </div>
@@ -948,7 +1749,7 @@ function closeModal(){
 }
 
 
-function editForm(i){
+async function editForm(i){
   const f=forms[i];
   if(!f)return;
   currentForm=f;
@@ -959,6 +1760,24 @@ function editForm(i){
   $("editFather").value=f.father_name||"";
   $("editMother").value=f.mother_name||"";
   $("editMobile").value=f.parent_mobile||"";
+  $("editAdminNote").value=f.admin_note||"";
+
+  // यदि list load के समय note उपलब्ध न हो, तो edit खोलते समय
+  // secure notes RPC से इसी form का saved Admin Note दोबारा पढ़ें।
+  if(!f.admin_note){
+    try{
+      const nr=await db.rpc("admin_get_exam_form_notes",{p_password:ADMIN_PASSWORD});
+      if(!nr.error && Array.isArray(nr.data)){
+        const found=nr.data.find(x=>String(x.form_id||"")===String(fid));
+        if(found){
+          f.admin_note=String(found.admin_note||"");
+          $("editAdminNote").value=f.admin_note;
+        }
+      }
+    }catch(noteErr){
+      console.warn("Admin Note edit load failed:",noteErr);
+    }
+  }
 
   const exam=String(f.examination||"");
   const examSelect=$("editExamination");
@@ -1015,6 +1834,28 @@ async function saveEditedSubjects(id, subjects){
  return r;
 }
 
+function setAdminNote(note){
+ const el=$("editAdminNote");
+ if(el) el.value=note;
+}
+
+async function saveAdminNote(id,note){
+ const cleanNote=String(note||"").trim();
+ const r=await db.rpc("admin_update_exam_form_note",{
+   p_password:ADMIN_PASSWORD,
+   p_form_id:String(id),
+   p_admin_note:cleanNote
+ });
+ if(r.error) throw r.error;
+
+ // Save के बाद current table data में भी note तुरंत update करें,
+ // ताकि Edit दोबारा खोलने पर note दिखाई दे।
+ const idx=forms.findIndex(x=>String(x.form_id||x.submission_id||x.id||"")===String(id));
+ if(idx>=0) forms[idx].admin_note=cleanNote;
+ adminNoteCache.set(String(id),cleanNote);
+ return r;
+}
+
 async function saveEditedForm(i){
   const f=forms[i];
   if(!f)return;
@@ -1065,9 +1906,12 @@ async function saveEditedForm(i){
     if(r.error) throw r.error;
 
     await saveEditedSubjects(id,subjects);
+    await saveAdminNote(id,$("editAdminNote").value.trim());
+    await logAdminActivity("Form Edited",id,f.student_name||"","Form details / subjects / Admin Note updated");
 
     closeEditModal();
     await loadForms();
+    await loadActivityLogs();
     msg("dataMessage","Examination Form successfully updated.",true);
   }catch(e){
     console.error(e);
@@ -1116,7 +1960,9 @@ async function setReviewStatus(i,classification){
    msg("dataMessage","Review status update failed: "+r.error.message,false);
    return;
  }
+ await logAdminActivity(label==="VALID"?"Form Marked Valid":label==="DUPLICATE"?"Form Marked Duplicate":label==="UNVALID"?"Form Marked Unvalid":"Form Marked Unduplicate",id,f.student_name||"","Form marked "+label);
  await loadForms();
+ await loadActivityLogs();
  msg("dataMessage","Form "+label+" के रूप में save हो गया।",true);
 }
 
@@ -1179,11 +2025,32 @@ async function changeStatus(i,status,fromModal=false){
  }
 
  if(fromModal)closeModal();
+ await logAdminActivity(status==="approved"?"Form Approved":"Form Rejected",id,f.student_name||"","Form "+(status==="approved"?"Approved":"Rejected"));
  await loadForms();
+ await loadActivityLogs();
 }
+async function logAdminActivity(action,formId,studentName,details){
+ try{
+  if(!db)return;
+  const r=await db.rpc("admin_log_activity",{p_password:ADMIN_PASSWORD,p_action:String(action||""),p_form_id:formId?String(formId):null,p_student_name:studentName?String(studentName):null,p_details:String(details||"")});
+  if(r.error) console.warn("Activity log save failed:",r.error);
+ }catch(e){console.warn("Activity log exception:",e);}
+}
+function formatActivityDate(value){try{if(!value)return "—";return new Intl.DateTimeFormat("en-IN",{timeZone:"Asia/Kolkata",day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:false}).format(new Date(value));}catch(e){return String(value||"—");}}
+async function loadActivityLogs(){
+ const body=$("adminActivityLogRows"); if(!body||!db)return;
+ try{
+  const r=await db.rpc("admin_get_activity_logs",{p_password:ADMIN_PASSWORD}); if(r.error)throw r.error;
+  const rows=Array.isArray(r.data)?r.data:[];
+  body.innerHTML=rows.length?rows.map(x=>`<tr><td>${esc(formatActivityDate(x.created_at))}</td><td>${esc(x.admin_name||"Admin")}</td><td><b>${esc(x.action||"—")}</b></td><td>${esc(x.form_id||"—")}${x.student_name?`<br><span class="note">${esc(x.student_name)}</span>`:""}</td><td>${esc(x.details||"—")}</td></tr>`).join(""):`<tr><td colspan="5" style="text-align:center;padding:20px">अभी कोई Admin Activity नहीं है।</td></tr>`;
+ }catch(e){console.warn("Activity log load failed:",e);body.innerHTML=`<tr><td colspan="5" style="text-align:center;padding:20px">Activity Log load नहीं हो सका।</td></tr>`;}
+}
+
 function logout(){
  sessionStorage.removeItem("ssvp_exam_admin_ok");
- $("dashboard").style.display="none";
+ $("dashboard").classList.add("hidden","prelogin-hidden");
+ $("dashboard").style.setProperty("display","none","important");
+ $("dashboard").style.setProperty("visibility","hidden","important");
  $("loginCard").classList.remove("hidden");
  location.reload();
 }
@@ -1197,6 +2064,377 @@ if(sessionStorage.getItem("ssvp_exam_admin_ok")==="1"){
  sessionStorage.removeItem("ssvp_exam_admin_ok");
 }
 </script>
+
+<script>
+/* Enhanced Student Search - fixed integration */
+(function(){
+  window.__enhancedStudentSearch = {q:"", c:""};
+  function val(v){ return String(v == null ? "" : v).trim().toLowerCase(); }
+  window.applyEnhancedStudentSearch = function(){
+    const box = document.getElementById("studentSearchBox");
+    const cls = document.getElementById("studentClassSearch");
+    const q = val(box && box.value);
+    const c = val(cls && cls.value);
+    window.__enhancedStudentSearch = { q:q, c:c };
+
+    const out = document.getElementById("enhancedSearchResultCount");
+    if(out) out.textContent = (q || c) ? "Searching..." : "";
+
+    if(typeof render === "function") render();
+
+    // Count exactly what the same filters used by render() will show.
+    const status = val(document.getElementById("statusFilter")?.value);
+    const matches = (window.forms || []).filter(function(f){
+      const hay = [
+        f.form_id,f.submission_id,f.student_name,f.roll_no,f.roll_code,
+        f.parent_mobile,f.father_name,f.mother_name,f.examination,f.class_name
+      ].map(val).join(" ");
+      const okSearch = !q || hay.includes(q);
+      const normalized = typeof normalizedClass === "function" ? normalizedClass(f.class_name) : f.class_name;
+      const okClass = !c || val(normalized) === c;
+      const formStatus = val(f.status || "pending");
+      const review = val(f.form_classification || "unreviewed");
+      const okStatus = !status || formStatus === status ||
+        ((status === "unvalid" || status === "unduplicate") && (!review || review === "unreviewed")) ||
+        (status === review);
+      return okSearch && okClass && okStatus;
+    });
+    if(out) out.textContent = (q || c) ? ("Found: " + matches.length + " form(s)") : "";
+  };
+
+  window.clearEnhancedStudentSearch = function(){
+    const box = document.getElementById("studentSearchBox");
+    const cls = document.getElementById("studentClassSearch");
+    if(box) box.value = "";
+    if(cls) cls.value = "";
+    window.__enhancedStudentSearch = {q:"", c:""};
+    const existing = document.getElementById("search");
+    if(existing) existing.value = "";
+    const baseClass = document.getElementById("classFilter");
+    if(baseClass) baseClass.value = "";
+    const out = document.getElementById("enhancedSearchResultCount");
+    if(out) out.textContent = "";
+    if(typeof render === "function") render();
+  };
+})();
+</script>
+
+<script>
+/* Separate CSV report downloads */\nfunction reportRowsByStatus(status){\n const s=String(status||'').toLowerCase();\n return (window.forms||[]).filter(f=>{\n  const st=String(f.status||'pending').toLowerCase();\n  if(s==='all') return true;\n  if(s==='valid'||s==='duplicate') return String(f.form_classification||'').toLowerCase()===s;\n  if(s==='unvalid'||s==='unduplicate'){ const c=String(f.form_classification||'').toLowerCase(); return !c||c==='unreviewed'; }\n  return st===s;\n });\n}\nfunction csvEscape(v){return '"'+String(v==null?'':v).replace(/"/g,'""')+'"';}\nfunction downloadRowsCSV(rows, filename, reviewOverride){\n if(!rows.length){alert('इस report में अभी कोई form नहीं है।');return;}\n const headers=['Form ID','Student Name','Class','Roll Code','Roll No','Father Name','Mother Name','Parent Mobile','Examination','Form Status','Review Status','Submitted At'];\n const csv=[headers,...rows.map(f=>{\n  const c=String(f.form_classification||'unreviewed').toLowerCase();\n  const review=reviewOverride || (c==='valid'?'VALID':c==='duplicate'?'DUPLICATE':'UNVALID / UNDUPLICATE');\n  return [f.form_id||f.submission_id||f.id||'',f.student_name||'',f.class_name||'',f.roll_code||'',f.roll_no||'',f.father_name||'',f.mother_name||'',f.parent_mobile||'',f.examination||'',f.status||'',review,f.submitted_at||''];\n })].map(r=>r.map(csvEscape).join(',')).join('\\r\\n');\n const blob=new Blob(['\\ufeff'+csv],{type:'text/csv;charset=utf-8'});\n const url=URL.createObjectURL(blob), a=document.createElement('a');\n a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);\n}\nfunction downloadReportCSV(status){\n const labels={pending:'PENDING',approved:'APPROVED',rejected:'REJECTED',all:'ALL_FORMS'};\n const rows=reportRowsByStatus(status);\n downloadRowsCSV(rows,'SSVP_'+(labels[status]||String(status).toUpperCase())+'_2026-27.csv');\n}\nfunction downloadClassWiseReport(){\n const order=['Nursery','LKG','UKG','Class 1','Class 2','Class 3','Class 4','Class 5','Class 6','Class 7','Class 8'];\n const rows=[];\n order.forEach(label=>{\n  const cls=label.toLowerCase();\n  const r=(window.forms||[]).filter(f=>typeof normalizedClass==='function'?normalizedClass(f.class_name)===cls:String(f.class_name||'').toLowerCase()===cls);\n  const st=x=>String(x.status||'pending').toLowerCase();\n  const rv=x=>String(x.form_classification||'unreviewed').toLowerCase();\n  const un=r.filter(x=>!x.form_classification||rv(x)==='unreviewed').length;\n  rows.push([label,r.length,r.filter(x=>st(x)==='pending').length,r.filter(x=>st(x)==='approved').length,r.filter(x=>st(x)==='rejected').length,r.filter(x=>rv(x)==='valid').length,un,r.filter(x=>rv(x)==='duplicate').length,un]);\n });\n const headers=['Class','Total Forms','Pending','Approved','Rejected','Valid','Unvalid','Duplicate','Unduplicate'];\n const csv=[headers,...rows].map(r=>r.map(csvEscape).join(',')).join('\\r\\n');\n const blob=new Blob(['\\ufeff'+csv],{type:'text/csv;charset=utf-8'});\n const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='SSVP_CLASS_WISE_FORM_REPORT_2026-27.csv';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);\n}\nfunction dateKey(v){\n if(!v)return '';\n const d=new Date(v); if(isNaN(d))return '';\n const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');\n return y+'-'+m+'-'+day;\n}\nfunction downloadDateWiseReport(){\n const from=document.getElementById('reportFromDate')?.value||'';\n const to=document.getElementById('reportToDate')?.value||'';\n if(!from&&!to){alert('कृपया From Date या To Date चुनें।');return;}\n if(from&&to&&from>to){alert('From Date, To Date से पहले होनी चाहिए।');return;}\n const rows=(window.forms||[]).filter(f=>{const d=dateKey(f.submitted_at);return d&&(!from||d>=from)&&(!to||d<=to);});\n const name='SSVP_DATE_WISE_FORMS_'+(from||'START')+'_TO_'+(to||'END')+'.csv';\n downloadRowsCSV(rows,name);\n}\n</script>\n
+
+<script>
+/* Separate report download functions - fixed */
+(function(){
+  function safe(v){ return String(v == null ? "" : v); }
+  function cls(v){
+    try { return String(normalizedClass(v) || "").toLowerCase(); }
+    catch(e){ return safe(v).trim().toLowerCase(); }
+  }
+  function status(v){ return safe(v || "pending").trim().toLowerCase(); }
+  function classification(v){ return safe(v || "unreviewed").trim().toLowerCase(); }
+
+  function dateOnly(v){
+    if(!v) return "";
+    const x=safe(v);
+    const m=x.match(/(20\d{2})[-\/](\d{1,2})[-\/](\d{1,2})/);
+    if(m) return m[1]+"-"+String(m[2]).padStart(2,"0")+"-"+String(m[3]).padStart(2,"0");
+    const d=new Date(x);
+    if(isNaN(d.getTime())) return "";
+    return d.toISOString().slice(0,10);
+  }
+
+  function rowsForExport(rows){
+    return rows.map(function(f){
+      return {
+        "Form ID":f.form_id||"",
+        "Student Name":f.student_name||"",
+        "Class":f.class_name||"",
+        "Roll Code":f.roll_code||"",
+        "Roll No":f.roll_no||"",
+        "Father Name":f.father_name||"",
+        "Mother Name":f.mother_name||"",
+        "Parent Mobile":f.parent_mobile||"",
+        "Examination":f.examination||"",
+        "Status":f.status||"pending",
+        "Classification":f.form_classification||"unreviewed",
+        "Submitted At":f.submitted_at||""
+      };
+    });
+  }
+
+  function csv(v){
+    return '"' + safe(v).replace(/"/g,'""') + '"';
+  }
+
+  function makeCSV(rows,title){
+    const data=rowsForExport(rows);
+    const heads=["Form ID","Student Name","Class","Roll Code","Roll No","Father Name","Mother Name","Parent Mobile","Examination","Status","Classification","Submitted At"];
+    const lines=[heads.map(csv).join(",")];
+    data.forEach(r=>lines.push(heads.map(h=>csv(r[h])).join(",")));
+    const blob=new Blob(["\ufeff"+lines.join("\r\n")],{type:"text/csv;charset=utf-8"});
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download=title.replace(/[^\w\u0900-\u097F-]+/g,"_")+".csv";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href),1500);
+    if(typeof showDownloadReport==="function") showDownloadReport(rows,title);
+  }
+
+  window.downloadFilteredFormsCSV=function(which){
+    const rows=(typeof forms!=="undefined"?forms:[]).filter(f=>status(f.status)===String(which).toLowerCase());
+    makeCSV(rows,"Examination_Forms_"+which);
+  };
+
+  window.downloadClassWiseCSV=function(){
+    const selected=(document.getElementById("downloadClassSelect")||{}).value||"";
+    const rows=(typeof forms!=="undefined"?forms:[]).filter(f=>!selected || cls(f.class_name)===selected.toLowerCase());
+    makeCSV(rows, selected ? "Class_"+selected.replace(/\s+/g,"_")+"_Forms" : "All_Classes_Forms");
+  };
+
+  window.downloadDateWiseCSV=function(){
+    const from=(document.getElementById("downloadFromDate")||{}).value||"";
+    const to=(document.getElementById("downloadToDate")||{}).value||"";
+    if(from && to && from>to){ alert("From Date, To Date से पहले होना चाहिए।"); return; }
+    const rows=(typeof forms!=="undefined"?forms:[]).filter(function(f){
+      const d=dateOnly(f.submitted_at);
+      return d && (!from || d>=from) && (!to || d<=to);
+    });
+    makeCSV(rows, "Date_Wise_Forms"+(from||to ? "_"+(from||"start")+"_"+(to||"end") : ""));
+  };
+})();
+</script>
+
+
+<script>
+(function(){
+  const selectedKeys = new Set();
+
+  function allForms(){
+    try { return (typeof forms !== "undefined" && Array.isArray(forms)) ? forms : []; }
+    catch(e){ return []; }
+  }
+  function formKey(f){
+    return String((f && (f.form_id || f.submission_id || f.id)) || "");
+  }
+  function selectedForms(){
+    const set=selectedKeys;
+    return allForms().filter(f=>set.has(formKey(f)));
+  }
+  function updateCount(){
+    const el=document.getElementById("selectedFormsCount");
+    if(el) el.textContent=selectedKeys.size+" selected";
+  }
+
+  window.selectSelectedForm=function(key,checked){
+    key=String(key||"");
+    if(!key)return;
+    if(checked)selectedKeys.add(key); else selectedKeys.delete(key);
+    updateCount();
+  };
+
+  window.clearSelectedForms=function(){
+    selectedKeys.clear();
+    document.querySelectorAll("#formRows .selected-form-checkbox").forEach(cb=>cb.checked=false);
+    updateCount();
+  };
+
+  window.selectAllVisibleForms=function(){
+    document.querySelectorAll("#formRows .selected-form-checkbox").forEach(cb=>{
+      cb.checked=true;
+      selectedKeys.add(String(cb.dataset.formKey||""));
+    });
+    updateCount();
+  };
+
+  function bindCheckboxes(){
+    document.querySelectorAll("#formRows .selected-form-checkbox").forEach(cb=>{
+      const key=String(cb.dataset.formKey||"");
+      cb.checked=selectedKeys.has(key);
+      if(cb.dataset.bound==="1")return;
+      cb.dataset.bound="1";
+      cb.addEventListener("change",function(){
+        selectSelectedForm(key,this.checked);
+      });
+    });
+    updateCount();
+  }
+
+  window.bindSelectedFormCheckboxes=bindCheckboxes;
+
+  window.printSelectedForms=function(){
+    const rows=selectedForms();
+    if(!rows.length){
+      alert("पहले कम से कम एक examination form select करें।");
+      return;
+    }
+
+    function escPrint(v){
+      return String(v==null?"":v)
+        .replace(/&/g,"&amp;").replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+    }
+
+    let body='<div class="school-title"><h2>SHREE SHANKARACHARYA VIDYAPITH</h2><h3>ONLINE EXAMINATION FORM — SELECTED FORMS</h3></div>';
+
+    rows.forEach((f,idx)=>{
+      body+='<section class="form-page">';
+      body+='<h3>Examination Form '+(idx+1)+'</h3>';
+      body+='<table><tbody>';
+      [
+        ["Form ID",f.form_id||f.submission_id||f.id||""],
+        ["Student Name",f.student_name||""],
+        ["Class",f.class_name||""],
+        ["Roll Code",f.roll_code||""],
+        ["Roll No",f.roll_no||""],
+        ["Father Name",f.father_name||""],
+        ["Mother Name",f.mother_name||""],
+        ["Parent Mobile",f.parent_mobile||""],
+        ["Examination",f.examination||""],
+        ["Form Status",f.status||"pending"],
+        ["Review Status",f.form_classification||"unreviewed"],
+        ["Admin Note",f.admin_note||""],
+        ["Submitted At",f.submitted_at||""]
+      ].forEach(x=>{
+        body+='<tr><th>'+escPrint(x[0])+'</th><td>'+escPrint(x[1])+'</td></tr>';
+      });
+      body+='</tbody></table></section>';
+    });
+
+    const printHTML='<!doctype html><html><head><meta charset="utf-8"><title>Selected Examination Forms</title><style>'+
+      '*{box-sizing:border-box}body{font-family:Arial,sans-serif;margin:0;padding:18px;color:#111}'+
+      '.school-title{text-align:center;margin-bottom:18px}.school-title h2{margin:0 0 7px;color:#0b2454;font-size:20px}.school-title h3{margin:0;color:#333;font-size:13px}'+
+      '.form-page{page-break-after:always;margin-bottom:20px}.form-page:last-child{page-break-after:auto}.form-page h3{text-align:center;margin:10px 0 15px;color:#0b2454}'+
+      'table{width:100%;border-collapse:collapse;font-size:12px}th,td{border:1px solid #777;padding:8px;text-align:left;vertical-align:top}th{width:30%;background:#f1f1f1}'+
+      '@page{size:A4 portrait;margin:12mm}@media print{body{padding:0}.form-page{break-after:page}.form-page:last-child{break-after:auto}}'+
+      '</style></head><body>'+body+'</body></html>';
+
+    // Use a hidden iframe so Android Chrome can invoke the system print dialog
+    // without depending on a popup/new-tab.
+    const iframe=document.createElement("iframe");
+    iframe.style.position="fixed";
+    iframe.style.right="0";
+    iframe.style.bottom="0";
+    iframe.style.width="1px";
+    iframe.style.height="1px";
+    iframe.style.border="0";
+    iframe.style.opacity="0";
+    iframe.setAttribute("aria-hidden","true");
+    document.body.appendChild(iframe);
+
+    let printed=false;
+    function doPrint(){
+      if(printed)return;
+      printed=true;
+      try{
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print();
+      }catch(e){
+        // Fallback: open a dedicated print tab with the complete report.
+        const w=window.open("","_blank");
+        if(w){
+          w.document.open();
+          w.document.write(printHTML);
+          w.document.close();
+          setTimeout(()=>{try{w.focus();w.print();}catch(_){}},500);
+        }else{
+          alert("Print window open नहीं हो सकी। Browser popup/print permission allow करें।");
+        }
+      }
+      setTimeout(()=>{try{iframe.remove();}catch(_){}},5000);
+    }
+
+    iframe.onload=function(){setTimeout(doPrint,250);};
+    iframe.srcdoc=printHTML;
+    // Some Android WebViews do not fire srcdoc onload consistently.
+    setTimeout(function(){
+      if(!printed && iframe.contentDocument && iframe.contentDocument.body && iframe.contentDocument.body.innerHTML){
+        doPrint();
+      }
+    },1000);
+  };
+
+  window.downloadSelectedFormsPDF=function(){
+    const rows=selectedForms();
+    if(!rows.length){alert("पहले कम से कम एक examination form select करें।");return;}
+    if(!window.jspdf || !window.jspdf.jsPDF){
+      alert("PDF library load नहीं हुई। Internet ON करके फिर कोशिश करें।");
+      return;
+    }
+    const doc=new window.jspdf.jsPDF({orientation:"portrait",unit:"mm",format:"a4"});
+    rows.forEach((f,index)=>{
+      if(index)doc.addPage();
+      doc.setFontSize(16);
+      doc.text("SHREE SHANKARACHARYA VIDYAPITH",105,17,{align:"center"});
+      doc.setFontSize(12);
+      doc.text("ONLINE EXAMINATION FORM",105,25,{align:"center"});
+      let y=38;
+      [
+        ["Form ID",f.form_id||f.submission_id||f.id||""],
+        ["Student Name",f.student_name||""],
+        ["Class",f.class_name||""],
+        ["Roll Code",f.roll_code||""],
+        ["Roll No",f.roll_no||""],
+        ["Father Name",f.father_name||""],
+        ["Mother Name",f.mother_name||""],
+        ["Parent Mobile",f.parent_mobile||""],
+        ["Examination",f.examination||""],
+        ["Form Status",f.status||"pending"],
+        ["Review Status",f.form_classification||"unreviewed"],
+        ["Admin Note",f.admin_note||""],
+        ["Submitted At",f.submitted_at||""]
+      ].forEach(x=>{
+        doc.setFontSize(10);
+        doc.text(String(x[0]),20,y);
+        doc.text(String(x[1]||""),65,y,{maxWidth:120});
+        doc.line(20,y+2,190,y+2);
+        y+=10;
+      });
+    });
+    const pdfBlob = doc.output("blob");
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+    const a = document.createElement("a");
+    a.href = pdfUrl;
+    a.download = "SSVP_Selected_Forms.pdf";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(pdfUrl),3000);
+  };
+
+  // Run once now and after every existing render() call.
+  setTimeout(bindCheckboxes,200);
+  const originalRender=window.render;
+  if(typeof originalRender==="function" && !window.__selectedFormsRenderWrapped){
+    window.render=function(){
+      const result=originalRender.apply(this,arguments);
+      setTimeout(bindCheckboxes,0);
+      return result;
+    };
+    window.__selectedFormsRenderWrapped=true;
+  }
+  document.addEventListener("DOMContentLoaded",()=>setTimeout(bindCheckboxes,200));
+})();
+</script>
+
+<style>
+@media screen{
+  #selectedFormsPrintArea{display:none}
+}
+@media print{
+  body > *:not(#selectedFormsPrintArea){display:none !important}
+  #selectedFormsPrintArea{display:block !important;padding:15px;font-family:Arial,sans-serif}
+  .selected-print-title{text-align:center;margin-bottom:18px}
+  .selected-print-form{page-break-after:always;margin-bottom:20px}
+  .selected-print-form:last-child{page-break-after:auto}
+  .selected-print-form h3{text-align:center}
+  .selected-print-form table{width:100%;border-collapse:collapse}
+  .selected-print-form th,.selected-print-form td{border:1px solid #888;padding:7px;text-align:left}
+  .selected-print-form th{width:30%;background:#f1f1f1}
+}
+</style>
+
 </body>
 </html>
   
